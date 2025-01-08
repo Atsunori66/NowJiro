@@ -1,0 +1,758 @@
+[
+  {
+    "id": 1,
+    "name": "三田本店",
+    "station": "田町, 三田",
+    "openingDays": "月 - 土",
+    "openingHours": "08:00 - 20:00"
+  },
+  {
+    "id": 2,
+    "name": "目黒店",
+    "station": "目黒, 中目黒",
+    "openingDays": "月 - 日",
+    "openingHours": "11:00 - 16:00"
+  },
+  {
+    "id": 3,
+    "name": "目黒店",
+    "station": "目黒, 中目黒",
+    "openingDays": "月 - 日",
+    "openingHours": "18:00 - 23:00"
+  },
+  {
+    "id": 4,
+    "name": "仙川店",
+    "station": "仙川",
+    "openingDays": "月 - 土",
+    "openingHours": "17:00 - 21:00"
+  },
+  {
+    "id": 5,
+    "name": "新宿歌舞伎町店",
+    "station": "新宿, 西武新宿",
+    "openingDays": "月, 火, 木 - 日, 祝",
+    "openingHours": "11:30 - 26:30"
+  },
+  {
+    "id": 6,
+    "name": "品川店",
+    "station": "品川, 北品川",
+    "openingDays": "月 - 金",
+    "openingHours": "10:00 - 13:30"
+  },
+  {
+    "id": 7,
+    "name": "品川店",
+    "station": "品川, 北品川",
+    "openingDays": "月 - 金",
+    "openingHours": "17:00 - 20:30"
+  },
+  {
+    "id": 8,
+    "name": "品川店",
+    "station": "品川, 北品川",
+    "openingDays": "土",
+    "openingHours": "10:00 - 14:00"
+  },
+  {
+    "id": 9,
+    "name": "新宿小滝橋通り店",
+    "station": "新宿, 西武新宿",
+    "openingDays": "月 - 日",
+    "openingHours": "11:00 - 22:00"
+  },
+  {
+    "id": 10,
+    "name": "環七新新代田店",
+    "station": "新代田",
+    "openingDays": "火 - 日",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 11,
+    "name": "八王子野猿街道店2",
+    "station": "京王堀之内",
+    "openingDays": "火 - 金",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 12,
+    "name": "八王子野猿街道店2",
+    "station": "京王堀之内",
+    "openingDays": "火 - 金",
+    "openingHours": "17:30 - 21:00"
+  },
+  {
+    "id": 13,
+    "name": "八王子野猿街道店2",
+    "station": "京王堀之内",
+    "openingDays": "土, 祝 (月祝: 定休)",
+    "openingHours": "11:00 - 20:00"
+  },
+  {
+    "id": 14,
+    "name": "八王子野猿街道店2",
+    "station": "京王堀之内",
+    "openingDays": "日",
+    "openingHours": "08:00 - 15:00"
+  },
+  {
+    "id": 15,
+    "name": "池袋東口店",
+    "station": "池袋",
+    "openingDays": "月祝, 火 - 日, 祝 (月祝の翌日は休み)",
+    "openingHours": "10:30 - 16:30"
+  },
+  {
+    "id": 16,
+    "name": "亀戸店",
+    "station": "亀戸",
+    "openingDays": "月 - 日, 祝",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 17,
+    "name": "亀戸店",
+    "station": "亀戸",
+    "openingDays": "月 - 日, 祝",
+    "openingHours": "17:30 - 21:00"
+  },
+  {
+    "id": 18,
+    "name": "京急川崎店",
+    "station": "川崎, 京急川崎",
+    "openingDays": "月 - 金",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 19,
+    "name": "京急川崎店",
+    "station": "川崎, 京急川崎",
+    "openingDays": "月 - 金",
+    "openingHours": "18:00 - 22:00"
+  },
+  {
+    "id": 20,
+    "name": "京急川崎店",
+    "station": "川崎, 京急川崎",
+    "openingDays": "土",
+    "openingHours": "11:00 - 16:00"
+  },
+  {
+    "id": 21,
+    "name": "府中店",
+    "station": "府中",
+    "openingDays": "月 - 金",
+    "openingHours": "17:00 - 22:00"
+  },
+  {
+    "id": 22,
+    "name": "松戸駅前店 III",
+    "station": "松戸",
+    "openingDays": "月 - 土",
+    "openingHours": "17:30 - 21:30"
+  },
+  {
+    "id": 23,
+    "name": "めじろ台店",
+    "station": "めじろ台",
+    "openingDays": "月 - 水, 金, 土",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 24,
+    "name": "めじろ台店",
+    "station": "めじろ台",
+    "openingDays": "月 - 水, 金, 土",
+    "openingHours": "17:30 - 20:30"
+  },
+  {
+    "id": 25,
+    "name": "めじろ台店",
+    "station": "めじろ台",
+    "openingDays": "日",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 26,
+    "name": "荻窪店",
+    "station": "荻窪",
+    "openingDays": "月 - 土",
+    "openingHours": "11:30 - 14:15"
+  },
+  {
+    "id": 27,
+    "name": "荻窪店",
+    "station": "荻窪",
+    "openingDays": "月 - 土",
+    "openingHours": "18:00 - 21:45"
+  },
+  {
+    "id": 28,
+    "name": "上野毛店",
+    "station": "上野毛",
+    "openingDays": "月 - 金",
+    "openingHours": "11:00 - 14:15"
+  },
+  {
+    "id": 29,
+    "name": "上野毛店",
+    "station": "上野毛",
+    "openingDays": "月 - 金",
+    "openingHours": "18:00 - 22:00"
+  },
+  {
+    "id": 30,
+    "name": "上野毛店",
+    "station": "上野毛",
+    "openingDays": "土",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 31,
+    "name": "京成大久保店",
+    "station": "京成大久保",
+    "openingDays": "月 - 土",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 32,
+    "name": "環七一之江店",
+    "station": "一之江",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "10:30 - 14:00"
+  },
+  {
+    "id": 33,
+    "name": "環七一之江店",
+    "station": "一之江",
+    "openingDays": "土, 日, 祝",
+    "openingHours": "09:00 - 14:00"
+  },
+  {
+    "id": 34,
+    "name": "相模大野店",
+    "station": "相模大野",
+    "openingDays": "火",
+    "openingHours": "10:20 - 14:00"
+  },
+  {
+    "id": 35,
+    "name": "相模大野店",
+    "station": "相模大野",
+    "openingDays": "水, 木",
+    "openingHours": "10:20 - 14:00"
+  },
+  {
+    "id": 36,
+    "name": "相模大野店",
+    "station": "相模大野",
+    "openingDays": "水, 木",
+    "openingHours": "17:00 - 20:30"
+  },
+  {
+    "id": 37,
+    "name": "相模大野店",
+    "station": "相模大野",
+    "openingDays": "金",
+    "openingHours": "17:00 - 20:30"
+  },
+  {
+    "id": 38,
+    "name": "相模大野店",
+    "station": "相模大野",
+    "openingDays": "土, 日",
+    "openingHours": "10:00 - 15:00"
+  },
+  {
+    "id": 39,
+    "name": "横浜関内店",
+    "station": "関内",
+    "openingDays": "月, 火, 木 - 日, 祝",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 40,
+    "name": "横浜関内店",
+    "station": "関内",
+    "openingDays": "月, 火, 木 - 日, 祝",
+    "openingHours": "17:00 - 21:00"
+  },
+  {
+    "id": 41,
+    "name": "神田神保町店",
+    "station": "神保町",
+    "openingDays": "月 - 土",
+    "openingHours": "11:00 - 17:30"
+  },
+  {
+    "id": 42,
+    "name": "小岩店",
+    "station": "小岩",
+    "openingDays": "火 - 金",
+    "openingHours": "10:30 - 麺切れ"
+  },
+  {
+    "id": 43,
+    "name": "ひばりヶ丘駅前店",
+    "station": "ひばりヶ丘",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "11:30 - 14:30"
+  },
+  {
+    "id": 44,
+    "name": "ひばりヶ丘駅前店",
+    "station": "ひばりヶ丘",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "18:00 - 21:00"
+  },
+  {
+    "id": 45,
+    "name": "ひばりヶ丘駅前店",
+    "station": "ひばりヶ丘",
+    "openingDays": "水",
+    "openingHours": "11:30 - 14:30"
+  },
+  {
+    "id": 46,
+    "name": "ひばりヶ丘駅前店",
+    "station": "ひばりヶ丘",
+    "openingDays": "土",
+    "openingHours": "11:00 - 17:00"
+  },
+  {
+    "id": 47,
+    "name": "桜台駅前店",
+    "station": "桜台",
+    "openingDays": "月, 水, 木",
+    "openingHours": "10:30 - 14:30"
+  },
+  {
+    "id": 48,
+    "name": "桜台駅前店",
+    "station": "桜台",
+    "openingDays": "金",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 49,
+    "name": "桜台駅前店",
+    "station": "桜台",
+    "openingDays": "金",
+    "openingHours": "17:30 - 21:00"
+  },
+  {
+    "id": 50,
+    "name": "桜台駅前店",
+    "station": "桜台",
+    "openingDays": "土, 日",
+    "openingHours": "10:00 - 16:00"
+  },
+  {
+    "id": 51,
+    "name": "栃木街道店",
+    "station": "壬生",
+    "openingDays": "月 - 金",
+    "openingHours": "11:30 - 14:45"
+  },
+  {
+    "id": 52,
+    "name": "栃木街道店",
+    "station": "壬生",
+    "openingDays": "月 - 金",
+    "openingHours": "18:00 - 21:00"
+  },
+  {
+    "id": 53,
+    "name": "栃木街道店",
+    "station": "壬生",
+    "openingDays": "土",
+    "openingHours": "11:30 - 16:00"
+  },
+  {
+    "id": 54,
+    "name": "立川店",
+    "station": "立川",
+    "openingDays": "月, 火, 木 - 日",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 55,
+    "name": "立川店",
+    "station": "立川",
+    "openingDays": "月, 火, 木 - 日",
+    "openingHours": "17:30 - 20:30"
+  },
+  {
+    "id": 56,
+    "name": "千住大橋駅前店",
+    "station": "千住大橋",
+    "openingDays": "月 - 水, 金",
+    "openingHours": "10:30 - 15:30"
+  },
+  {
+    "id": 57,
+    "name": "柏店",
+    "station": "柏の葉キャンパス",
+    "openingDays": "月 - 土, 祝",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 58,
+    "name": "柏店",
+    "station": "柏の葉キャンパス",
+    "openingDays": "月 - 土, 祝",
+    "openingHours": "17:30 - 21:30"
+  },
+  {
+    "id": 59,
+    "name": "湘南藤沢店",
+    "station": "藤沢",
+    "openingDays": "月, 水 - 日, 祝",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 60,
+    "name": "湘南藤沢店",
+    "station": "藤沢",
+    "openingDays": "月, 水 - 日, 祝",
+    "openingHours": "17:00 - 21:00"
+  },
+  {
+    "id": 61,
+    "name": "西台駅前店",
+    "station": "西台",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "11:00 - 13:30"
+  },
+  {
+    "id": 62,
+    "name": "西台駅前店",
+    "station": "西台",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "17:30 - 20:30"
+  },
+  {
+    "id": 63,
+    "name": "西台駅前店",
+    "station": "西台",
+    "openingDays": "水",
+    "openingHours": "11:00 - 13:30"
+  },
+  {
+    "id": 64,
+    "name": "西台駅前店",
+    "station": "西台",
+    "openingDays": "土",
+    "openingHours": "09:30 - 12:30"
+  },
+  {
+    "id": 65,
+    "name": "中山駅前店",
+    "station": "中山",
+    "openingDays": "月 - 水, 金 - 日, 祝",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 66,
+    "name": "中山駅前店",
+    "station": "中山",
+    "openingDays": "月 - 水, 金 - 日, 祝",
+    "openingHours": "18:00 - 21:30"
+  },
+  {
+    "id": 67,
+    "name": "仙台店",
+    "station": "大町西公園",
+    "openingDays": "月 - 金",
+    "openingHours": "11:30 - 14:30"
+  },
+  {
+    "id": 68,
+    "name": "仙台店",
+    "station": "大町西公園",
+    "openingDays": "月 - 金",
+    "openingHours": "17:00 - 21:00"
+  },
+  {
+    "id": 69,
+    "name": "仙台店",
+    "station": "大町西公園",
+    "openingDays": "土",
+    "openingHours": "11:30 - 21:00"
+  },
+  {
+    "id": 70,
+    "name": "仙台店",
+    "station": "大町西公園",
+    "openingDays": "日, 祝",
+    "openingHours": "11:30 - 19:30"
+  },
+  {
+    "id": 71,
+    "name": "札幌店",
+    "station": "札幌, さっぽろ",
+    "openingDays": "月 - 金",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 72,
+    "name": "札幌店",
+    "station": "札幌, さっぽろ",
+    "openingDays": "月 - 金",
+    "openingHours": "17:00 - 20:30"
+  },
+  {
+    "id": 73,
+    "name": "札幌店",
+    "station": "札幌, さっぽろ",
+    "openingDays": "土",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 74,
+    "name": "会津若松駅前店",
+    "station": "会津若松",
+    "openingDays": "火 - 金",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 75,
+    "name": "会津若松駅前店",
+    "station": "会津若松",
+    "openingDays": "火 - 金",
+    "openingHours": "17:00 - 21:00"
+  },
+  {
+    "id": 76,
+    "name": "会津若松駅前店",
+    "station": "会津若松",
+    "openingDays": "土",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 77,
+    "name": "会津若松駅前店",
+    "station": "会津若松",
+    "openingDays": "第2, 4日曜",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 78,
+    "name": "新潟店",
+    "station": "新潟",
+    "openingDays": "火, 水, 金",
+    "openingHours": "10:45 - 13:45"
+  },
+  {
+    "id": 79,
+    "name": "新潟店",
+    "station": "新潟",
+    "openingDays": "火, 水, 金",
+    "openingHours": "16:30 - 21:00"
+  },
+  {
+    "id": 80,
+    "name": "新潟店",
+    "station": "新潟",
+    "openingDays": "土, 日",
+    "openingHours": "09:30 - 15:00"
+  },
+  {
+    "id": 81,
+    "name": "川越店",
+    "station": "川越",
+    "openingDays": "火 - 土",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 82,
+    "name": "川越店",
+    "station": "川越",
+    "openingDays": "火 - 土",
+    "openingHours": "18:00 - 21:00"
+  },
+  {
+    "id": 83,
+    "name": "川越店",
+    "station": "川越",
+    "openingDays": "日",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 84,
+    "name": "京都店",
+    "station": "一乗寺",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 85,
+    "name": "京都店",
+    "station": "一乗寺",
+    "openingDays": "月, 火, 木, 金",
+    "openingHours": "18:00 - 21:30"
+  },
+  {
+    "id": 86,
+    "name": "京都店",
+    "station": "一乗寺",
+    "openingDays": "土, 日",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 87,
+    "name": "京都店",
+    "station": "一乗寺",
+    "openingDays": "土",
+    "openingHours": "17:30 - 21:30"
+  },
+  {
+    "id": 88,
+    "name": "京都店",
+    "station": "一乗寺",
+    "openingDays": "日",
+    "openingHours": "17:30 - 20:30"
+  },
+  {
+    "id": 89,
+    "name": "越谷店",
+    "station": "越谷",
+    "openingDays": "月 - 金",
+    "openingHours": "11:30 - 19:00"
+  },
+  {
+    "id": 90,
+    "name": "前橋千代田町店",
+    "station": "中央前橋",
+    "openingDays": "火 - 日, 祝 (月祝: 定休)",
+    "openingHours": "10:30 - 14:30"
+  },
+  {
+    "id": 91,
+    "name": "前橋千代田町店",
+    "station": "中央前橋",
+    "openingDays": "火 - 日, 祝 (月祝: 定休)",
+    "openingHours": "17:00 - 20:00"
+  },
+  {
+    "id": 92,
+    "name": "千葉店",
+    "station": "葭川公園, 千葉中央, 千葉",
+    "openingDays": "月 - 土",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 93,
+    "name": "千葉店",
+    "station": "葭川公園, 千葉中央, 千葉",
+    "openingDays": "月 - 土",
+    "openingHours": "17:00 - 21:30"
+  },
+  {
+    "id": 94,
+    "name": "大宮公園駅前店",
+    "station": "大宮公園",
+    "openingDays": "月, 火, 木 - 土",
+    "openingHours": "11:30 - 14:30"
+  },
+  {
+    "id": 95,
+    "name": "大宮公園駅前店",
+    "station": "大宮公園",
+    "openingDays": "月, 火, 木 - 土",
+    "openingHours": "17:30 - 21:00"
+  },
+  {
+    "id": 96,
+    "name": "大宮公園駅前店",
+    "station": "大宮公園",
+    "openingDays": "日, 祝",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 97,
+    "name": "ひたちなか店",
+    "station": "勝田",
+    "openingDays": "月 - 金",
+    "openingHours": "11:00 - 14:30"
+  },
+  {
+    "id": 98,
+    "name": "ひたちなか店",
+    "station": "勝田",
+    "openingDays": "月 - 金",
+    "openingHours": "17:30 - 21:00"
+  },
+  {
+    "id": 99,
+    "name": "ひたちなか店",
+    "station": "勝田",
+    "openingDays": "土, 祝",
+    "openingHours": "10:00 - 16:00"
+  },
+  {
+    "id": 100,
+    "name": "一橋学園店",
+    "station": "一橋学園",
+    "openingDays": "月 - 水, 金",
+    "openingHours": "11:00 - 14:00"
+  },
+  {
+    "id": 101,
+    "name": "一橋学園店",
+    "station": "一橋学園",
+    "openingDays": "月 - 水, 金",
+    "openingHours": "17:30 - 20:30"
+  },
+  {
+    "id": 102,
+    "name": "一橋学園店",
+    "station": "一橋学園",
+    "openingDays": "土",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 103,
+    "name": "一橋学園店",
+    "station": "一橋学園",
+    "openingDays": "土",
+    "openingHours": "17:30 - 20:30"
+  },
+  {
+    "id": 104,
+    "name": "一橋学園店",
+    "station": "一橋学園",
+    "openingDays": "日",
+    "openingHours": "11:00 - 16:00"
+  },
+  {
+    "id": 105,
+    "name": "生田店",
+    "station": "生田",
+    "openingDays": "月, 火, 木 - 日",
+    "openingHours": "11:00 - 15:00"
+  },
+  {
+    "id": 106,
+    "name": "生田店",
+    "station": "生田",
+    "openingDays": "月, 火, 木 - 日",
+    "openingHours": "18:00 - 21:00"
+  },
+  {
+    "id": 107,
+    "name": "朝倉街道駅前店",
+    "station": "朝倉街道",
+    "openingDays": "月 - 水, 金",
+    "openingHours": "11:30 - 14:30"
+  },
+  {
+    "id": 108,
+    "name": "朝倉街道駅前店",
+    "station": "朝倉街道",
+    "openingDays": "月 - 水, 金",
+    "openingHours": "17:30 - 20:30"
+  }
+]
