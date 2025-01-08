@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import ShopsData from "./dfData.json";
 
 interface Schedule {
@@ -32,6 +34,8 @@ export default function Home() {
   const [selectedTimeOption, setSelectedTimeOption] = useState<string>("current");
   const [specifiedTime, setSpecifiedTime] = useState<Date>(new Date());
   const [displayTime, setDisplayTime] = useState<Date>(new Date());
+  const { setTheme, resolvedTheme } = useTheme();
+
 
   useEffect(() => {
     if (selectedTimeOption === "current") {
@@ -111,10 +115,24 @@ export default function Home() {
   return (
     <div className="grid grid-cols-1 gap-4">
 
-      <header className="p-4 m-2 bg-yellow-300 w-64 text-black font-black text-4xl">
-        <div>
+      <header className="m-2 flex">
+        <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
           今いける二郎
         </div>
+        {/* テーマカラートグルボタン */}
+        <button className="place-self-center gap-4 ml-auto mr-6"
+          onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+        >
+          {
+            resolvedTheme === "light" ?
+            <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300"></SunIcon>
+            :
+            resolvedTheme === "dark" ?
+            <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300"></MoonIcon>
+            :
+            <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300"></SunIcon>
+          }
+        </button>
       </header>
 
       <main className="p-4">
