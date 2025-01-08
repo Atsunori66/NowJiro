@@ -111,7 +111,7 @@ export default function Home() {
   return (
     <div className="grid grid-cols-1 gap-4">
 
-      <header className="p-4 m-2 bg-yellow-300 w-64 font-black text-4xl">
+      <header className="p-4 m-2 bg-yellow-300 w-64 text-black font-black text-4xl">
         <div>
           今いける二郎
         </div>
