@@ -137,13 +137,13 @@ export default function Home() {
 
       <main className="p-4">
         <div className="justify-self-center mb-8 text-sm md:text-lg">
-          二郎を食いたくなる衝動というものは実に突発的です。<br></br>
-          「確かに二郎を食いたい、しかし今開いている店舗はどこなんだ」という疑問を解消するために作ってみました。<br></br>
-          祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。<br></br>
-          各店舗の SNS 等も併せて確認してください。
+          <p>二郎を食いたくなる衝動というものは実に突発的です。</p>
+          <p>「確かに二郎を食いたい、しかし今開いている店舗はどこなんだ」という疑問を解消するために作ってみました。</p>
+          <p>＊祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
+          <p>各店舗の SNS 等も併せて確認してください。</p>
         </div>
         <div className="justify-self-center mb-6">
-          現在時刻: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
+          現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
         </div>
         <div className="justify-center flex items-center space-x-4 mb-8">
           <div className="flex items-center">
@@ -155,7 +155,7 @@ export default function Home() {
               checked={selectedTimeOption === "current"}
               onChange={() => setSelectedTimeOption("current")}
             />
-            <label htmlFor="currentTime" className="ml-2">現在の日時を使用</label>
+            <label htmlFor="currentTime" className="ml-2">現在日時を使用する</label>
           </div>
           <div className="flex items-center">
             <input
