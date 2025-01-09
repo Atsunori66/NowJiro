@@ -186,6 +186,9 @@ export default function Home() {
           <br></br>
           <p>＊祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
           <p>　各店舗の SNS 等も併せて確認してください。</p>
+          <br></br>
+          <p>「店名」列をクリック/タップするたびに標準/食べログでソートが切り替わります。</p>
+          <p>食べログの★は 2025年1月時点のものです。</p>
         </div>
         <div className="justify-self-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
