@@ -16,6 +16,7 @@ interface Shop {
   name: string;
   station: string;
   opening: Schedule[];
+  star: number;
 }
 
 interface ShopData {
@@ -25,7 +26,15 @@ interface ShopData {
   days: number[];
   open: string;
   close: string;
+  star: number;
+  isActive: boolean;
 }
+
+// ヘルパー関数: "HH:MM" を分単位に変換
+const getMinutes = (time: string): number => {
+  const [hour, min] = time.split(":").map(Number);
+  return hour * 60 + min;
+};
 
 // 型アサーションを使用して ShopsData を Shop[] 型としてキャスト
 const Shops: Shop[] = ShopsData as unknown as Shop[];
@@ -36,6 +45,12 @@ export default function Home() {
   const [displayTime, setDisplayTime] = useState<Date>(new Date());
   const { setTheme, resolvedTheme } = useTheme();
 
+  const [tableData, setTableData] = useState<ShopData[]>([]);
+  const [sortOrder, setSortOrder] = useState<string>("id");
+
+  const toggleSortOrder = () => {
+    setSortOrder(prev => prev === "id" ? "star" : "id");
+  };
 
   useEffect(() => {
     if (selectedTimeOption === "current") {
@@ -63,54 +78,83 @@ export default function Home() {
 
   const currentMinutes: number = displayTime.getHours() * 60 + displayTime.getMinutes(); // 現在時刻を分単位で取得
 
-  const [tableData, setTableData] = useState<ShopData[]>([]);
-
   useEffect(() => {
     const flattenedData: ShopData[] = Shops.flatMap((shop: Shop) =>
-      shop.opening.map((schedule: Schedule) => ({
-        id: shop.id,
-        name: shop.name,
-        station: shop.station,
-        days: schedule.days, // 数字の配列をそのまま代入
-        open: schedule.open,
-        close: schedule.close,
-      }))
+      shop.opening.map((schedule: Schedule) => {
+        let isActive = false;
+        const openTotal = getMinutes(schedule.open);
+        const closeTotalRaw = getMinutes(schedule.close);
+
+        let closeTotal = closeTotalRaw;
+        let isOverMidnight = false;
+
+        if (closeTotalRaw > 1440) {
+          closeTotal = closeTotalRaw - 1440; // 翌日の時間
+          isOverMidnight = true;
+        }
+
+        if (selectedTimeOption === "specify") {
+          const specifiedTotal = specifiedTime.getHours() * 60 + specifiedTime.getMinutes();
+          const isActiveDay = schedule.days.includes(specifiedTime.getDay());
+          if (isActiveDay) {
+            if (isOverMidnight) {
+              if (specifiedTotal >= openTotal || specifiedTotal < closeTotal) {
+                isActive = true;
+              }
+            } else {
+              if (openTotal <= specifiedTotal && specifiedTotal < closeTotal) {
+                isActive = true;
+              }
+            }
+          }
+        } else {
+          const currentTotal = currentMinutes;
+          const isActiveDay = schedule.days.includes(day);
+          if (isActiveDay) {
+            if (isOverMidnight) {
+              if (currentTotal >= openTotal || currentTotal < closeTotal) {
+                isActive = true;
+              }
+            } else {
+              if (openTotal <= currentTotal && currentTotal < closeTotal) {
+                isActive = true;
+              }
+            }
+          }
+        }
+
+        return {
+          id: shop.id,
+          name: shop.name,
+          station: shop.station,
+          days: schedule.days,
+          open: schedule.open,
+          close: schedule.close,
+          star: shop.star,
+          isActive: isActive
+        };
+      })
     );
 
-    let filteredData = flattenedData;
+    const activeData = flattenedData.filter(data => data.isActive);
+    const inactiveData = flattenedData.filter(data => !data.isActive);
 
-    if (selectedTimeOption === "specify") {
-      const specifiedTotal = specifiedTime.getHours() * 60 + specifiedTime.getMinutes();
-      filteredData = flattenedData.filter((shop: ShopData) => {
-        const isActiveDay = shop.days.includes(specifiedTime.getDay());
-        if (!isActiveDay) return false;
+    const sortFunction = (a: ShopData, b: ShopData) => {
+      if (sortOrder === "id") {
+        return a.id - b.id;
+      } else if (sortOrder === "star") {
+        return b.star - a.star;
+      }
+      return 0;
+    };
 
-        const [openHour, openMin] = shop.open.split(":").map(Number);
-        const [closeHour, closeMin] = shop.close.split(":").map(Number);
+    activeData.sort(sortFunction);
+    inactiveData.sort(sortFunction);
 
-        const openTotal = openHour * 60 + openMin;
-        const closeTotal = closeHour * 60 + closeMin;
+    const sortedData = [...activeData, ...inactiveData];
 
-        return openTotal <= specifiedTotal && closeTotal >= specifiedTotal;
-      });
-    } else {
-      const currentTotal = currentMinutes;
-      filteredData = flattenedData.filter((shop: ShopData) => {
-        const isActiveDay = shop.days.includes(day);
-        if (!isActiveDay) return false;
-
-        const [openHour, openMin] = shop.open.split(":").map(Number);
-        const [closeHour, closeMin] = shop.close.split(":").map(Number);
-
-        const openTotal = openHour * 60 + openMin;
-        const closeTotal = closeHour * 60 + closeMin;
-
-        return openTotal <= currentTotal && closeTotal >= currentTotal;
-      });
-    }
-
-    setTableData(filteredData);
-  }, [day, currentMinutes, selectedTimeOption, specifiedTime]);
+    setTableData(sortedData);
+  }, [day, currentMinutes, selectedTimeOption, specifiedTime, sortOrder]);
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -139,8 +183,9 @@ export default function Home() {
         <div className="justify-self-center mb-8 text-sm md:text-lg">
           <p>二郎を食いたくなる衝動というものは実に突発的です。</p>
           <p>「確かに二郎を食いたい、しかし今開いている店舗はどこなんだ」という疑問を解消するために作ってみました。</p>
+          <br></br>
           <p>＊祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
-          <p>各店舗の SNS 等も併せて確認してください。</p>
+          <p>　各店舗の SNS 等も併せて確認してください。</p>
         </div>
         <div className="justify-self-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
@@ -262,20 +307,21 @@ export default function Home() {
         )}
 
         <div>
-          <table className="justify-self-center border-collapse border border-slate-400 text-base md:text-lg">
+          <table className="justify-self-center border-collapse border border-slate-400 text-sm md:text-lg">
             <thead>
               <tr>
-                <th className="border border-slate-400">店名</th>
-                <th className="border border-slate-400">最寄駅</th>
-                <th className="border border-slate-400">営業日</th>
-                <th className="border border-slate-400">開店時間</th>
-                <th className="border border-slate-400">閉店時間</th>
+                <th onClick={toggleSortOrder} className="border border-slate-400 bg-slate-100 text-black cursor-pointer">店名</th>
+                <th className="border border-slate-400 bg-slate-100 text-black">最寄駅</th>
+                <th className="border border-slate-400 bg-slate-100 text-black">営業日</th>
+                <th className="border border-slate-400 bg-slate-100 text-black text-balance">開店時間</th>
+                <th className="border border-slate-400 bg-slate-100 text-black text-balance">閉店時間</th>
+                <th className="border border-slate-400 bg-slate-100 text-black">食べログ</th>
               </tr>
             </thead>
             <tbody>
               {
                 tableData.map((row: ShopData, index: number) => (
-                  <tr key={index}>
+                  <tr key={index} className={!row.isActive ? "bg-gray-200" : ""}>
                     <td className="border border-slate-400">{row.name}</td>
                     <td className="border border-slate-400">{row.station}</td>
                     <td className="border border-slate-400">
@@ -287,6 +333,7 @@ export default function Home() {
                     </td>
                     <td className="border border-slate-400">{row.open}</td>
                     <td className="border border-slate-400">{row.close}</td>
+                    <td className="border border-slate-400">★ {row.star}</td>
                   </tr>
                 ))
               }
