@@ -313,18 +313,18 @@ export default function Home() {
           <table className="justify-self-center border-collapse border border-slate-400 text-sm md:text-lg">
             <thead>
               <tr>
-                <th onClick={toggleSortOrder} className="border border-slate-400 bg-slate-100 text-black cursor-pointer">店名</th>
-                <th className="border border-slate-400 bg-slate-100 text-black">最寄駅</th>
-                <th className="border border-slate-400 bg-slate-100 text-black">営業日</th>
-                <th className="border border-slate-400 bg-slate-100 text-black text-balance">開店時間</th>
-                <th className="border border-slate-400 bg-slate-100 text-black text-balance">閉店時間</th>
-                <th className="border border-slate-400 bg-slate-100 text-black">食べログ</th>
+                <th onClick={toggleSortOrder} className="border border-slate-400 bg-gray-100 dark:bg-gray-700 cursor-pointer">店名</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">開店時間</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">閉店時間</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">食べログ</th>
               </tr>
             </thead>
             <tbody>
               {
                 tableData.map((row: ShopData, index: number) => (
-                  <tr key={index} className={!row.isActive ? "bg-gray-200" : ""}>
+                  <tr key={index} className={!row.isActive ? "bg-gray-300 dark:bg-gray-500" : ""}>
                     <td className="border border-slate-400">{row.name}</td>
                     <td className="border border-slate-400">{row.station}</td>
                     <td className="border border-slate-400">
