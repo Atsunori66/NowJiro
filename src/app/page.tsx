@@ -347,7 +347,7 @@ export default function Home() {
       </main>
 
       <footer className="p-4 justify-self-center">
-        © {year} Atsuki Sumita
+        © {year} nowjiro.com
       </footer>
     </div>
   );
