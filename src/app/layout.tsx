@@ -17,7 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "今いける二郎",
-  description: "ラーメン二郎は食いたい時に行きましょう。",
+  description: "現在営業中のラーメン二郎の店舗を確認できます。",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <Monetag/>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
