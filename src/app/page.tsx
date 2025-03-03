@@ -188,7 +188,7 @@ export default function Home() {
           <p>各店舗の SNS 等も併せて確認してください。</p>
           <br></br>
           <p>「店名」列をクリック/タップするたびに標準/食べログの★順でソートが切り替わります。</p>
-          <p>食べログの★は 2025年1月時点のものです。</p>
+          <p>営業情報、食べログの★は 2025年3月時点のものです。</p>
         </div>
         <div className="justify-self-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
