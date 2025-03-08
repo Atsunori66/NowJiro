@@ -1,6 +1,6 @@
 import Script from "next/script";
 
-const Monetag = () => {
+const MonetagMulti = () => {
 //   if (process.env.NODE_ENV !== "production") {
 //     return null;
 //   }
@@ -14,4 +14,4 @@ const Monetag = () => {
   );
 };
 
-export default Monetag;
+export default MonetagMulti;

@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
-import Monetag from "./components/monetag";
+// import MonetagMulti from "./components/monetag-multi";
+import MonetagPush from "./components/monetag-push-notifications";
+import MonetagInpage from "./components/monetag-inpage-push";
+import MonetagInterstitial from "./components/monetag-interstitial";
+import MonetagBanner from "./components/monetag-vignette-banner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,7 +31,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <Monetag/>
+      {/* Monetag components*/}
+      {/* <MonetagMulti/> */}
+      <MonetagPush/>
+      <MonetagInpage/>
+      <MonetagInterstitial/>
+      <MonetagBanner/>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
           {children}
