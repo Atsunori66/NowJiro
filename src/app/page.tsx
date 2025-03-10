@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import ShopsData from "./dfData.json";
 
+// MEMO: インターフェースの定義は通常、ファイルの先頭に配置されます
 interface Schedule {
   days: number[];
   open: string;
@@ -19,6 +20,7 @@ interface Shop {
   star: number;
 }
 
+// MEMO: ShopとShopDataに重複があります。共通部分を抽出して継承することも検討できます
 interface ShopData {
   id: number;
   name: string;
@@ -40,13 +42,13 @@ const getMinutes = (time: string): number => {
 const Shops: Shop[] = ShopsData as unknown as Shop[];
 
 export default function Home() {
-  const [selectedTimeOption, setSelectedTimeOption] = useState<string>("current");
+  const [selectedTimeOption, setSelectedTimeOption] = useState<"current" | "specify">("current")
   const [specifiedTime, setSpecifiedTime] = useState<Date>(new Date());
   const [displayTime, setDisplayTime] = useState<Date>(new Date());
   const { setTheme, resolvedTheme } = useTheme();
 
   const [tableData, setTableData] = useState<ShopData[]>([]);
-  const [sortOrder, setSortOrder] = useState<string>("id");
+  const [sortOrder, setSortOrder] = useState<"id" | "star">("id");
 
   const toggleSortOrder = () => {
     setSortOrder(prev => prev === "id" ? "star" : "id");
@@ -67,6 +69,8 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, [selectedTimeOption]);
+
+  // MEMO: 上記の2つのuseEffectは統合できる可能性があります
 
   const year = displayTime.getFullYear().toString();
   const month = (displayTime.getMonth() + 1).toString();
@@ -93,6 +97,7 @@ export default function Home() {
           isOverMidnight = true;
         }
 
+        // MEMO: 以下の条件分岐は共通化できる可能性があります
         if (selectedTimeOption === "specify") {
           const specifiedTotal = specifiedTime.getHours() * 60 + specifiedTime.getMinutes();
           const isActiveDay = schedule.days.includes(specifiedTime.getDay());
@@ -157,24 +162,20 @@ export default function Home() {
   }, [day, currentMinutes, selectedTimeOption, specifiedTime, sortOrder]);
 
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid gap-4">
 
       <header className="m-2 flex">
         <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
           今いける二郎
         </div>
         {/* テーマカラートグルボタン */}
-        <button className="place-self-center gap-4 ml-auto mr-6"
+        <button className="place-self-center ml-auto mr-6"
           onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
         >
           {
-            resolvedTheme === "light" ?
-            <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300"></SunIcon>
-            :
-            resolvedTheme === "dark" ?
-            <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300"></MoonIcon>
-            :
-            <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300"></SunIcon>
+            resolvedTheme === "dark"
+              ? <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300" />
+              : <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300" />
           }
         </button>
       </header>
@@ -183,17 +184,17 @@ export default function Home() {
         <div className="justify-self-center mb-8 text-sm md:text-lg">
           <p>二郎を食らいたい衝動は常に突発的なものです。</p>
           <p>「二郎を食うぞ、今開いている店舗はどこだ」とすぐに確認するために作りました。</p>
-          <br></br>
+          <br />
           <p>祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
           <p>各店舗の SNS 等も併せて確認してください。</p>
-          <br></br>
+          <br />
           <p>「店名」列をクリック/タップするたびに標準/食べログの★順でソートが切り替わります。</p>
           <p>営業情報、食べログの★は 2025年3月時点のものです。</p>
         </div>
-        <div className="justify-self-center mb-6">
+        <div className="text-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
         </div>
-        <div className="justify-center flex items-center space-x-4 mb-8">
+        <div className="flex justify-center items-center space-x-4 mb-8">
           <div className="flex items-center">
             <input
               type="radio"
@@ -219,7 +220,7 @@ export default function Home() {
         </div>
 
         {selectedTimeOption === "specify" && (
-          <div className="flex justify-self-center space-x-2 mb-8">
+          <div className="flex justify-center space-x-2 mb-8">
             <select
               value={specifiedTime.getFullYear()}
               onChange={(e) =>
@@ -316,6 +317,7 @@ export default function Home() {
                 <th onClick={toggleSortOrder} className="border border-slate-400 bg-gray-100 dark:bg-gray-700 cursor-pointer">店名</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
+                {/* MEMO: text-balanceは短いテキストには効果が薄く、不要かもしれません */}
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">開店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">閉店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">食べログ</th>
@@ -346,9 +348,9 @@ export default function Home() {
 
       </main>
 
-      <footer className="p-4 justify-self-center">
-        © {year} nowjiro.com
+      <footer className="p-4 text-center">
+        &copy; {year} nowjiro.com
       </footer>
     </div>
   );
-}
+};
