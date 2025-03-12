@@ -20,7 +20,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "今いける二郎",
+  title: "今行ける二郎",
   description: "現在営業中のラーメン二郎の店舗を確認できます。",
 };
 

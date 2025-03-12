@@ -166,7 +166,7 @@ export default function Home() {
 
       <header className="m-2 flex">
         <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
-          今いける二郎
+          今行ける二郎
         </div>
         {/* テーマカラートグルボタン */}
         <button className="place-self-center ml-auto mr-6"
