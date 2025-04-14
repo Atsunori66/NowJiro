@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import ShopsData from "./dfData.json";
+import ShopData from "./shopData.json";
 
 // MEMO: インターフェースの定義は通常、ファイルの先頭に配置されます
 interface Schedule {
@@ -40,8 +40,8 @@ const getMinutes = (time: string): number => {
   return hour * 60 + min;
 };
 
-// 型アサーションを使用して ShopsData を Shop[] 型としてキャスト
-const Shops: Shop[] = ShopsData as unknown as Shop[];
+// 型アサーションを使用して ShopData を Shop[] 型としてキャスト
+const Shops: Shop[] = ShopData as unknown as Shop[];
 
 export default function Home() {
   const [selectedTimeOption, setSelectedTimeOption] = useState<"current" | "specify">("current")
@@ -231,7 +231,7 @@ export default function Home() {
           <p>各店舗の SNS 等も併せて確認してください。</p>
           <br />
           <p>ソートメニューから「標準」「食べログ」「訪問済」の順序を選択できます。</p>
-          <p>営業情報、食べログの★は 2025年3月時点のものです。</p>
+          <p>営業情報、食べログの★は 2025年4月時点のものです。</p>
         </div>
         <div className="text-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
