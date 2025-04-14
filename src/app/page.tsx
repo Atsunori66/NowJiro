@@ -17,6 +17,7 @@ interface Shop {
   name: string;
   station: string;
   opening: Schedule[];
+  url: string;
   star: number;
 }
 
@@ -29,6 +30,7 @@ interface ShopData {
   open: string;
   close: string;
   star: number;
+  url: string;
   isActive: boolean;
 }
 
@@ -167,6 +169,7 @@ export default function Home() {
           open: schedule.open,
           close: schedule.close,
           star: shop.star,
+          url: shop.url,
           isActive: isActive
         };
       })
@@ -381,7 +384,11 @@ export default function Home() {
               {
                 tableData.map((row: ShopData, index: number) => (
                   <tr key={index} className={!row.isActive ? "bg-gray-300 dark:bg-gray-500" : ""}>
-                    <td className="border border-slate-400">{row.name}</td>
+                    <td className="border border-slate-400">
+                      <a href={row.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
+                        {row.name}
+                      </a>
+                    </td>
                     <td className="border border-slate-400">{row.station}</td>
                     <td className="border border-slate-400">
                       {
