@@ -48,10 +48,41 @@ export default function Home() {
   const { setTheme, resolvedTheme } = useTheme();
 
   const [tableData, setTableData] = useState<ShopData[]>([]);
-  const [sortOrder, setSortOrder] = useState<"id" | "star">("id");
+  const [sortOrder, setSortOrder] = useState<"id" | "star" | "visited">("id");
+  const [visitedShops, setVisitedShops] = useState<string[]>([]);
 
-  const toggleSortOrder = () => {
-    setSortOrder(prev => prev === "id" ? "star" : "id");
+  // ローカルストレージから訪問済み店舗を読み込む
+  useEffect(() => {
+    const savedVisitedShops = localStorage.getItem('visitedShops');
+    if (savedVisitedShops) {
+      setVisitedShops(JSON.parse(savedVisitedShops));
+    }
+  }, []);
+
+  // ソート順を変更する関数
+  const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOrder(e.target.value as "id" | "star" | "visited");
+  };
+
+  // 訪問済みの店舗を切り替える関数
+  const toggleVisited = (shopName: string) => {
+    // 同じ店名の店舗を一括で処理するため、名前だけを使用
+    const newVisitedShops = [...visitedShops];
+
+    if (newVisitedShops.includes(shopName)) {
+      // 既に訪問済みの場合は削除
+      const index = newVisitedShops.indexOf(shopName);
+      newVisitedShops.splice(index, 1);
+    } else {
+      // 未訪問の場合は追加
+      newVisitedShops.push(shopName);
+    }
+
+    // 状態を更新
+    setVisitedShops(newVisitedShops);
+
+    // ローカルストレージに保存
+    localStorage.setItem('visitedShops', JSON.stringify(newVisitedShops));
   };
 
   useEffect(() => {
@@ -149,6 +180,14 @@ export default function Home() {
         return a.id - b.id;
       } else if (sortOrder === "star") {
         return b.star - a.star;
+      } else if (sortOrder === "visited") {
+        // 訪問済みの店舗を優先し、その中では標準順（ID順）でソート
+        const aVisited = visitedShops.includes(a.name);
+        const bVisited = visitedShops.includes(b.name);
+
+        if (aVisited && !bVisited) return -1;
+        if (!aVisited && bVisited) return 1;
+        return a.id - b.id; // 両方訪問済みまたは両方未訪問の場合はID順
       }
       return 0;
     };
@@ -188,7 +227,7 @@ export default function Home() {
           <p>祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
           <p>各店舗の SNS 等も併せて確認してください。</p>
           <br />
-          <p>「店名」列をクリック/タップするたびに標準/食べログの★順でソートが切り替わります。</p>
+          <p>ソートメニューから「標準」「食べログ」「訪問済」の順序を選択できます。</p>
           <p>営業情報、食べログの★は 2025年3月時点のものです。</p>
         </div>
         <div className="text-center mb-6">
@@ -217,6 +256,20 @@ export default function Home() {
             />
             <label htmlFor="specifyTime" className="ml-2">日時を指定する</label>
           </div>
+        </div>
+
+        <div className="flex justify-center items-center mb-8">
+          <label htmlFor="sortOrder" className="mr-2">ソート順:</label>
+          <select
+            id="sortOrder"
+            value={sortOrder}
+            onChange={handleSortOrderChange}
+            className="rounded border p-1"
+          >
+            <option value="id">標準</option>
+            <option value="star">食べログ</option>
+            <option value="visited">訪問済</option>
+          </select>
         </div>
 
         {selectedTimeOption === "specify" && (
@@ -314,13 +367,14 @@ export default function Home() {
           <table className="justify-self-center border-collapse border border-slate-400 text-sm md:text-lg">
             <thead>
               <tr>
-                <th onClick={toggleSortOrder} className="border border-slate-400 bg-gray-100 dark:bg-gray-700 cursor-pointer">店名</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">店名</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
                 {/* MEMO: text-balanceは短いテキストには効果が薄く、不要かもしれません */}
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">開店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">閉店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">食べログ</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">訪問済</th>
               </tr>
             </thead>
             <tbody>
@@ -339,6 +393,14 @@ export default function Home() {
                     <td className="border border-slate-400">{row.open}</td>
                     <td className="border border-slate-400">{row.close}</td>
                     <td className="border border-slate-400">★ {row.star}</td>
+                    <td className="border border-slate-400 text-center">
+                      <input
+                        type="checkbox"
+                        checked={visitedShops.includes(row.name)}
+                        onChange={() => toggleVisited(row.name)}
+                        className="w-4 h-4 cursor-pointer"
+                      />
+                    </td>
                   </tr>
                 ))
               }
