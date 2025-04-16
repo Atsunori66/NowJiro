@@ -18,9 +18,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = "今行ける二郎"
+const description = "現在営業中のラーメン二郎の店舗を確認できます。"
+
 export const metadata: Metadata = {
-  title: "今行ける二郎",
-  description: "現在営業中のラーメン二郎の店舗を確認できます。",
+  title: title,
+  description: description,
+  appleWebApp: true,
+  openGraph: {
+    title: title,
+    description: description
+  },
+  twitter: {
+    title: title,
+    description: description,
+    card: "summary_large_image"
+  }
 };
 
 export default function RootLayout({
