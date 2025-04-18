@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { Providers } from "./providers";
-import MonetagPush from "./components/Monetag/MonetagPush";
-import MonetagInpage from "./components/Monetag/MonetagInpage";
-import MonetagInterstitial from "./components/Monetag/MonetagInterstitial";
-import MonetagBanner from "./components/Monetag/MonetagBanner";
+import { Provider } from "./components/Provider";
+// import MonetagPush from "./components/Monetag/MonetagPush";
+// import MonetagInpage from "./components/Monetag/MonetagInpage";
+// import MonetagInterstitial from "./components/Monetag/MonetagInterstitial";
+// import MonetagBanner from "./components/Monetag/MonetagBanner";
+
+import GoogleAdsense from "./components/GoogleAdsense";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,15 +45,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <MonetagPush/>
+      {/* <MonetagPush/>
       <MonetagInpage/>
       <MonetagInterstitial/>
-      <MonetagBanner/>
+      <MonetagBanner/> */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
+        <Provider>
           {children}
-        </Providers>
+        </Provider>
       </body>
+      <GoogleAdsense/>
     </html>
   );
 }
