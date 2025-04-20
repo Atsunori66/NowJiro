@@ -4,12 +4,12 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Provider } from "./components/Provider";
-// import MonetagPush from "./components/Monetag/MonetagPush";
-// import MonetagInpage from "./components/Monetag/MonetagInpage";
-// import MonetagInterstitial from "./components/Monetag/MonetagInterstitial";
-// import MonetagBanner from "./components/Monetag/MonetagBanner";
+import MonetagPush from "./components/Monetag/MonetagPush";
+import MonetagInpage from "./components/Monetag/MonetagInpage";
+import MonetagInterstitial from "./components/Monetag/MonetagInterstitial";
+import MonetagBanner from "./components/Monetag/MonetagBanner";
 
-import GoogleAdsense from "./components/GoogleAdsense";
+// import GoogleAdsense from "./components/GoogleAdsense";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,17 +48,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      {/* <MonetagPush/>
+      <MonetagPush/>
       <MonetagInpage/>
       <MonetagInterstitial/>
-      <MonetagBanner/> */}
+      <MonetagBanner/>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider>
           {children}
         </Provider>
       </body>
 
-      <GoogleAdsense/>
+      {/* <GoogleAdsense/> */}
       { !!gaID && <GoogleAnalytics gaId={gaID} /> }
     </html>
   );
