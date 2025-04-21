@@ -352,8 +352,8 @@ export default function Home() {
           <p>祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
           <p>各店舗の SNS 等も併せて確認してください。</p>
           <br />
-          <p>ソートメニューから「標準」「食べログ」「訪問済」の順序を選択できます。</p>
-          <p>営業情報、食べログの★は 2025年4月時点のものです。</p>
+          <p>ソートメニューから「標準」「食べログ」「訪問済」「現在地からの距離」の順序を選択できます。</p>
+          <p>各営業情報は 2025年4月時点のものです。</p>
         </div>
         <div className="text-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
@@ -395,7 +395,7 @@ export default function Home() {
               <option value="id">標準</option>
               <option value="star">食べログ</option>
               <option value="visited">訪問済</option>
-              <option value="location">現在地から近い順</option>
+              <option value="location">現在地からの距離</option>
             </select>
           </div>
 
