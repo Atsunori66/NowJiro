@@ -19,6 +19,8 @@ interface Shop {
   opening: Schedule[];
   url: string;
   star: number;
+  lat?: number;  // 緯度
+  lng?: number;  // 経度
 }
 
 // MEMO: ShopとShopDataに重複があります。共通部分を抽出して継承することも検討できます
@@ -32,6 +34,15 @@ interface ShopData {
   star: number;
   url: string;
   isActive: boolean;
+  lat?: number;  // 緯度
+  lng?: number;  // 経度
+  distance?: number; // ユーザーの現在地からの距離
+}
+
+// ユーザーの位置情報
+interface UserLocation {
+  lat: number;
+  lng: number;
 }
 
 // ヘルパー関数: "HH:MM" を分単位に変換
@@ -50,7 +61,11 @@ export default function Home() {
   const { setTheme, resolvedTheme } = useTheme();
 
   const [tableData, setTableData] = useState<ShopData[]>([]);
-  const [sortOrder, setSortOrder] = useState<"id" | "star" | "visited">("id");
+  const [sortOrder, setSortOrder] = useState<"id" | "star" | "visited" | "location">("id");
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [userLocationName, setUserLocationName] = useState<string | null>(null);
+  const [isLocationLoading, setIsLocationLoading] = useState<boolean>(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const [visitedShops, setVisitedShops] = useState<string[]>([]);
 
   // ローカルストレージから訪問済み店舗を読み込む
@@ -61,9 +76,87 @@ export default function Home() {
     }
   }, []);
 
+  // 緯度経度から地名を取得する関数
+  const getLocationName = async (lat: number, lng: number) => {
+    try {
+      // 簡易的な地名取得（実際のアプリでは適切なAPIを使用することをお勧めします）
+      // 東京
+      if (lat > 35.5 && lat < 35.8 && lng > 139.5 && lng < 140.0) {
+        return "東京";
+      }
+      // 横浜
+      else if (lat > 35.3 && lat < 35.6 && lng > 139.5 && lng < 139.8) {
+        return "横浜";
+      }
+      // 大阪
+      else if (lat > 34.5 && lat < 34.8 && lng > 135.3 && lng < 135.7) {
+        return "大阪";
+      }
+      // 名古屋
+      else if (lat > 35.0 && lat < 35.3 && lng > 136.8 && lng < 137.1) {
+        return "名古屋";
+      }
+      // 札幌
+      else if (lat > 42.9 && lat < 43.2 && lng > 141.2 && lng < 141.5) {
+        return "札幌";
+      }
+      // 福岡
+      else if (lat > 33.5 && lat < 33.7 && lng > 130.3 && lng < 130.6) {
+        return "福岡";
+      }
+      // その他
+      return "不明な地域";
+    } catch (error) {
+      console.error("地名の取得に失敗しました:", error);
+      return "不明な地域";
+    }
+  };
+
+  // ユーザーの現在地を取得する関数
+  const getUserLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("お使いのブラウザは位置情報をサポートしていません");
+      return;
+    }
+
+    setIsLocationLoading(true);
+    setLocationError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        setUserLocation({ lat, lng });
+
+        // 地名を取得
+        const locationName = await getLocationName(lat, lng);
+        setUserLocationName(locationName);
+
+        setIsLocationLoading(false);
+      },
+      (error) => {
+        setLocationError("位置情報の取得に失敗しました: " + error.message);
+        setIsLocationLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+    );
+  };
+
+  // 2点間の距離を計算する関数（ユークリッド距離）
+  const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+    return Math.sqrt(Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2));
+  };
+
   // ソート順を変更する関数
   const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOrder(e.target.value as "id" | "star" | "visited");
+    const newSortOrder = e.target.value as "id" | "star" | "visited" | "location";
+    setSortOrder(newSortOrder);
+
+    // 「現在地から近い順」が選択された場合、位置情報を取得
+    if (newSortOrder === "location" && !userLocation) {
+      getUserLocation();
+    }
   };
 
   // 訪問済みの店舗を切り替える関数
@@ -115,6 +208,7 @@ export default function Home() {
 
   const currentMinutes: number = displayTime.getHours() * 60 + displayTime.getMinutes(); // 現在時刻を分単位で取得
 
+  // ユーザーの現在地が変更されたときにも店舗との距離を再計算する
   useEffect(() => {
     const flattenedData: ShopData[] = Shops.flatMap((shop: Shop) =>
       shop.opening.map((schedule: Schedule) => {
@@ -161,6 +255,21 @@ export default function Home() {
           }
         }
 
+        // 店舗の緯度・経度を取得
+        const shopLat = shop.lat;
+        const shopLng = shop.lng;
+
+        // ユーザーの現在地からの距離を計算
+        let distance = undefined;
+        if (userLocation && shopLat && shopLng) {
+          distance = calculateDistance(
+            userLocation.lat,
+            userLocation.lng,
+            shopLat,
+            shopLng
+          );
+        }
+
         return {
           id: shop.id,
           name: shop.name,
@@ -170,7 +279,10 @@ export default function Home() {
           close: schedule.close,
           star: shop.star,
           url: shop.url,
-          isActive: isActive
+          isActive: isActive,
+          lat: shopLat,
+          lng: shopLng,
+          distance: distance
         };
       })
     );
@@ -191,6 +303,16 @@ export default function Home() {
         if (aVisited && !bVisited) return -1;
         if (!aVisited && bVisited) return 1;
         return a.id - b.id; // 両方訪問済みまたは両方未訪問の場合はID順
+      } else if (sortOrder === "location") {
+        // 現在地からの距離でソート
+        if (a.distance !== undefined && b.distance !== undefined) {
+          return a.distance - b.distance; // 距離が近い順
+        } else if (a.distance !== undefined) {
+          return -1; // aに距離があればaを優先
+        } else if (b.distance !== undefined) {
+          return 1; // bに距離があればbを優先
+        }
+        return a.id - b.id; // どちらも距離がない場合はID順
       }
       return 0;
     };
@@ -201,7 +323,7 @@ export default function Home() {
     const sortedData = [...activeData, ...inactiveData];
 
     setTableData(sortedData);
-  }, [day, currentMinutes, selectedTimeOption, specifiedTime, sortOrder]);
+  }, [day, currentMinutes, selectedTimeOption, specifiedTime, sortOrder, userLocation, visitedShops]);
 
   return (
     <div className="grid gap-4">
@@ -261,18 +383,38 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex justify-center items-center mb-8">
-          <label htmlFor="sortOrder" className="mr-2">ソート順:</label>
-          <select
-            id="sortOrder"
-            value={sortOrder}
-            onChange={handleSortOrderChange}
-            className="rounded border p-1"
-          >
-            <option value="id">標準</option>
-            <option value="star">食べログ</option>
-            <option value="visited">訪問済</option>
-          </select>
+        <div className="flex flex-col justify-center items-center mb-8">
+          <div className="flex items-center mb-2">
+            <label htmlFor="sortOrder" className="mr-2">ソート順:</label>
+            <select
+              id="sortOrder"
+              value={sortOrder}
+              onChange={handleSortOrderChange}
+              className="rounded border p-1"
+            >
+              <option value="id">標準</option>
+              <option value="star">食べログ</option>
+              <option value="visited">訪問済</option>
+              <option value="location">現在地から近い順</option>
+            </select>
+          </div>
+
+          {/* 位置情報の状態表示 */}
+          {isLocationLoading && (
+            <div className="text-sm text-blue-600 dark:text-blue-400">
+              位置情報を取得中...
+            </div>
+          )}
+          {locationError && (
+            <div className="text-sm text-red-600 dark:text-red-400">
+              {locationError}
+            </div>
+          )}
+          {userLocation && sortOrder === "location" && (
+            <div className="text-sm text-green-600 dark:text-green-400">
+              現在地を取得しました（{userLocationName}）
+            </div>
+          )}
         </div>
 
         {selectedTimeOption === "specify" && (
@@ -371,12 +513,15 @@ export default function Home() {
             <thead>
               <tr>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">店名</th>
-                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
+                <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
                 {/* MEMO: text-balanceは短いテキストには効果が薄く、不要かもしれません */}
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">開店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">閉店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">食べログ</th>
+                {sortOrder === "location" && userLocation && (
+                  <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">距離</th>
+                )}
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">訪問済</th>
               </tr>
             </thead>
@@ -389,7 +534,7 @@ export default function Home() {
                         {row.name}
                       </a>
                     </td>
-                    <td className="border border-slate-400">{row.station}</td>
+                    <td className="hidden md:table-cell border border-slate-400">{row.station}</td>
                     <td className="border border-slate-400">
                       {
                         row.days
@@ -400,6 +545,11 @@ export default function Home() {
                     <td className="border border-slate-400">{row.open}</td>
                     <td className="border border-slate-400">{row.close}</td>
                     <td className="border border-slate-400">★ {row.star}</td>
+                    {sortOrder === "location" && userLocation && (
+                      <td className="hidden md:table-cell border border-slate-400">
+                        {row.distance !== undefined ? (row.distance * 111).toFixed(2) + " km" : "-"}
+                      </td>
+                    )}
                     <td className="border border-slate-400 text-center">
                       <input
                         type="checkbox"
