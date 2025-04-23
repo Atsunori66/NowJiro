@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
 import ShopData from "./shopData.json";
 
 // MEMO: インターフェースの定義は通常、ファイルの先頭に配置されます
@@ -79,35 +80,101 @@ export default function Home() {
   // 緯度経度から地名を取得する関数
   const getLocationName = async (lat: number, lng: number) => {
     try {
-      // 簡易的な地名取得（実際のアプリでは適切なAPIを使用することをお勧めします）
-      // 東京
+      // APIキーを環境変数から取得
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+      // Google Maps Geocoding APIのエンドポイントURL
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&language=ja&key=${apiKey}`;
+
+      // axiosを使用してAPIリクエストを送信
+      const response = await axios.get(url);
+
+      // デバッグ用：APIレスポンスをコンソールに出力
+      console.log('Geocoding API Response:', response.data);
+
+      // レスポンスのステータスを確認
+      if (response.data.status === 'OK' && response.data.results.length > 0) {
+        // 結果から適切な地名を抽出
+        const results = response.data.results;
+
+        // 都道府県と市区町村の情報を取得
+        let prefecture = null;
+        let locality = null;
+        let sublocality = null;
+
+        // すべての結果から都道府県と市区町村の情報を探す
+        for (const result of results) {
+          for (const component of result.address_components) {
+            // 都道府県レベル
+            if (component.types.includes('administrative_area_level_1')) {
+              prefecture = component.long_name;
+            }
+            // 市区町村レベル
+            if (component.types.includes('locality')) {
+              locality = component.long_name;
+            }
+            // 区レベル
+            if (component.types.includes('sublocality_level_1')) {
+              sublocality = component.long_name;
+            }
+          }
+
+          // 必要な情報が揃ったら探索を終了
+          if (prefecture && (locality || sublocality)) {
+            break;
+          }
+        }
+
+        // 都道府県と市区町村/区の情報を組み合わせて返す
+        if (prefecture) {
+          if (sublocality) {
+            return `${prefecture}${sublocality}`;
+          } else if (locality) {
+            return `${prefecture}${locality}`;
+          } else {
+            return prefecture;
+          }
+        }
+
+        // 適切な地名が見つからない場合は最初の結果の住所を使用
+        return results[0].formatted_address.split(',')[0];
+      }
+
+      // APIからの応答がない場合や結果がない場合は現在の実装にフォールバック
+      // 簡易的な地名取得（APIが失敗した場合のフォールバック）
       if (lat > 35.5 && lat < 35.8 && lng > 139.5 && lng < 140.0) {
         return "東京";
-      }
-      // 横浜
-      else if (lat > 35.3 && lat < 35.6 && lng > 139.5 && lng < 139.8) {
+      } else if (lat > 35.3 && lat < 35.6 && lng > 139.5 && lng < 139.8) {
         return "横浜";
-      }
-      // 大阪
-      else if (lat > 34.5 && lat < 34.8 && lng > 135.3 && lng < 135.7) {
+      } else if (lat > 34.5 && lat < 34.8 && lng > 135.3 && lng < 135.7) {
         return "大阪";
-      }
-      // 名古屋
-      else if (lat > 35.0 && lat < 35.3 && lng > 136.8 && lng < 137.1) {
+      } else if (lat > 35.0 && lat < 35.3 && lng > 136.8 && lng < 137.1) {
         return "名古屋";
-      }
-      // 札幌
-      else if (lat > 42.9 && lat < 43.2 && lng > 141.2 && lng < 141.5) {
+      } else if (lat > 42.9 && lat < 43.2 && lng > 141.2 && lng < 141.5) {
         return "札幌";
-      }
-      // 福岡
-      else if (lat > 33.5 && lat < 33.7 && lng > 130.3 && lng < 130.6) {
+      } else if (lat > 33.5 && lat < 33.7 && lng > 130.3 && lng < 130.6) {
         return "福岡";
       }
-      // その他
+
       return "不明な地域";
     } catch (error) {
       console.error("地名の取得に失敗しました:", error);
+
+      // エラー時も現在の実装にフォールバック
+      if (lat > 35.5 && lat < 35.8 && lng > 139.5 && lng < 140.0) {
+        return "東京";
+      } else if (lat > 35.3 && lat < 35.6 && lng > 139.5 && lng < 139.8) {
+        return "横浜";
+      } else if (lat > 34.5 && lat < 34.8 && lng > 135.3 && lng < 135.7) {
+        return "大阪";
+      } else if (lat > 35.0 && lat < 35.3 && lng > 136.8 && lng < 137.1) {
+        return "名古屋";
+      } else if (lat > 42.9 && lat < 43.2 && lng > 141.2 && lng < 141.5) {
+        return "札幌";
+      } else if (lat > 33.5 && lat < 33.7 && lng > 130.3 && lng < 130.6) {
+        return "福岡";
+      }
+
       return "不明な地域";
     }
   };
@@ -139,7 +206,7 @@ export default function Home() {
         setLocationError("位置情報の取得に失敗しました: " + error.message);
         setIsLocationLoading(false);
       },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
     );
   };
 
