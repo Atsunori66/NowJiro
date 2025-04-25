@@ -414,13 +414,13 @@ export default function Home() {
       <main className="p-4">
         <div className="justify-self-center mb-8 text-sm md:text-lg">
           <p>二郎を食らいたい衝動は常に突発的なものです。</p>
-          <p>「二郎を食うぞ、今開いている店舗はどこだ」とすぐに確認するために作りました。</p>
+          <p>「二郎を食うぞ、どの店舗なら開いているんだ」とすぐに確認するために作りました。</p>
           <br />
-          <p>祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている可能性があります。</p>
+          <p>祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている場合があります。</p>
           <p>各店舗の SNS 等も併せて確認してください。</p>
           <br />
-          <p>ソートメニューから「標準」「食べログ」「訪問済」「現在地からの距離」の順序を選択できます。</p>
-          <p>各営業情報は 2025年4月時点のものです。</p>
+          <p>ソートメニューから「標準 / 食べログ / 訪問済 / 現在地からの距離」で並び替えできます。</p>
+          <p>各店舗の営業情報は 2025年4月時点のものです。</p>
         </div>
         <div className="text-center mb-6">
           現在日時: {year}/{month}/{date} ({weekDays[day]}) {hours}:{minutes}
@@ -582,7 +582,6 @@ export default function Home() {
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">店名</th>
                 <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
-                {/* MEMO: text-balanceは短いテキストには効果が薄く、不要かもしれません */}
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">開店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">閉店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">食べログ</th>
