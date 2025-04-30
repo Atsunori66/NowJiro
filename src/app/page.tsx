@@ -582,13 +582,13 @@ export default function Home() {
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">店名</th>
                 <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
-                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">開店時間</th>
-                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 text-balance">閉店時間</th>
-                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">食べログ</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">開店時間</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">閉店時間</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">食べログ</th>
                 {sortOrder === "location" && userLocation && (
                   <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">距離</th>
                 )}
-                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">訪問済</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">訪問済</th>
               </tr>
             </thead>
             <tbody>
@@ -608,15 +608,15 @@ export default function Home() {
                           .join(", ")
                       }
                     </td>
-                    <td className="border border-slate-400">{row.open}</td>
-                    <td className="border border-slate-400">{row.close}</td>
-                    <td className="border border-slate-400">★ {row.star}</td>
+                    <td className="border border-slate-400 whitespace-nowrap">{row.open}</td>
+                    <td className="border border-slate-400 whitespace-nowrap">{row.close}</td>
+                    <td className="border border-slate-400 whitespace-nowrap">★ {row.star.toFixed(2)}</td>
                     {sortOrder === "location" && userLocation && (
                       <td className="hidden md:table-cell border border-slate-400">
                         {row.distance !== undefined ? (row.distance * 111).toFixed(2) + " km" : "-"}
                       </td>
                     )}
-                    <td className="border border-slate-400 text-center">
+                    <td className="border border-slate-400 text-center whitespace-nowrap">
                       <input
                         type="checkbox"
                         checked={visitedShops.includes(row.name)}
