@@ -9,7 +9,7 @@ import MonetagInpage from "./components/Monetag/MonetagInpage";
 import MonetagInterstitial from "./components/Monetag/MonetagInterstitial";
 import MonetagBanner from "./components/Monetag/MonetagBanner";
 
-// import GoogleAdsense from "./components/GoogleAdsense";
+import GoogleAdsense from "./components/GoogleAdsense";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,7 +58,7 @@ export default function RootLayout({
         </Provider>
       </body>
 
-      {/* <GoogleAdsense/> */}
+      <GoogleAdsense/>
       { !!gaID && <GoogleAnalytics gaId={gaID} /> }
     </html>
   );
