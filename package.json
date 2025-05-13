@@ -12,7 +12,6 @@
     "@heroicons/react": "^2.2.0",
     "@next/third-parties": "^15.3.2",
     "@tailwindcss/postcss": "^4.1.6",
-    "@types/react-datepicker": "^6.2.0",
     "axios": "^1.9.0",
     "cheerio": "^1.0.0",
     "danfojs": "^1.2.0",

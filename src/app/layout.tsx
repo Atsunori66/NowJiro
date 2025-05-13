@@ -4,10 +4,10 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Provider } from "./components/Provider";
-import MonetagPush from "./components/Monetag/MonetagPush";
-import MonetagInpage from "./components/Monetag/MonetagInpage";
-import MonetagInterstitial from "./components/Monetag/MonetagInterstitial";
-import MonetagBanner from "./components/Monetag/MonetagBanner";
+import MonetagPush from "./components/monetag/Push";
+import MonetagInpage from "./components/monetag/InpagePush";
+import MonetagInterstitial from "./components/monetag/Interstitial";
+import MonetagVignette from "./components/monetag/Vignette";
 
 import GoogleAdsense from "./components/GoogleAdsense";
 
@@ -51,7 +51,8 @@ export default function RootLayout({
       <MonetagPush/>
       <MonetagInpage/>
       <MonetagInterstitial/>
-      <MonetagBanner/>
+      <MonetagVignette/>
+
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider>
           {children}

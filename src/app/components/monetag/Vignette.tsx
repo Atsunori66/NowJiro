@@ -1,11 +1,11 @@
 import Script from "next/script";
 
-const MonetagBanner = () => {
+const MonetagVignette = () => {
   if (process.env.NODE_ENV !== "production") {
     return null;
   }
   return (
-    <Script id="monetag-banner" strategy="lazyOnload">
+    <Script id="monetag-vignette" strategy="lazyOnload">
       {`
         (function(d, z, s) {
           s.src = 'https://' + d + '/401/' + z;
@@ -18,4 +18,4 @@ const MonetagBanner = () => {
   );
 };
 
-export default MonetagBanner;
+export default MonetagVignette;
