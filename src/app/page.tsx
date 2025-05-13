@@ -4,7 +4,14 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale } from "react-datepicker";
+import { ja } from "date-fns/locale/ja"; // 日本語ロケール
 import ShopData from "./shopData.json";
+
+// 日本語ロケールを登録
+registerLocale("ja", ja);
 
 // MEMO: インターフェースの定義は通常、ファイルの先頭に配置されます
 interface Schedule {
@@ -487,93 +494,74 @@ export default function Home() {
         </div>
 
         {selectedTimeOption === "specify" && (
-          <div className="flex justify-center space-x-2 mb-8">
-            <select
-              value={specifiedTime.getFullYear()}
-              onChange={(e) =>
-                setSpecifiedTime(new Date(
-                  parseInt(e.target.value),
-                  specifiedTime.getMonth(),
-                  specifiedTime.getDate(),
-                  specifiedTime.getHours(),
-                  specifiedTime.getMinutes()
-                ))
-              }
-              className="rounded border p-1"
-            >
-              {[...Array(10)].map((_, idx) => {
-                const yearOption = new Date().getFullYear() - 5 + idx;
-                return <option key={yearOption} value={yearOption}>{yearOption}年</option>
-              })}
-            </select>
-            <select
-              value={specifiedTime.getMonth() + 1}
-              onChange={(e) =>
-                setSpecifiedTime(new Date(
-                  specifiedTime.getFullYear(),
-                  parseInt(e.target.value) - 1,
-                  specifiedTime.getDate(),
-                  specifiedTime.getHours(),
-                  specifiedTime.getMinutes()
-                ))
-              }
-              className="rounded border p-1"
-            >
-              {[...Array(12)].map((_, idx) => (
-                <option key={idx + 1} value={idx + 1}>{idx + 1}月</option>
+          <div className="flex justify-center items-center space-x-4 mb-8">
+            {/* 日付選択（カレンダーUI） */}
+            <DatePicker
+              selected={specifiedTime}
+              onChange={(date) => date && setSpecifiedTime(new Date(
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate(),
+                specifiedTime.getHours(),
+                specifiedTime.getMinutes()
               ))}
-            </select>
-            <select
-              value={specifiedTime.getDate()}
-              onChange={(e) =>
-                setSpecifiedTime(new Date(
-                  specifiedTime.getFullYear(),
-                  specifiedTime.getMonth(),
-                  parseInt(e.target.value),
-                  specifiedTime.getHours(),
-                  specifiedTime.getMinutes()
-                ))
+              locale="ja"
+              dateFormat="yyyy/MM/dd"
+              className="rounded border p-2 text-center bg-white dark:bg-gray-800 dark:text-white w-40"
+              calendarClassName="bg-white dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 rounded shadow-lg"
+              dayClassName={(date) =>
+                date.getDay() === 0
+                  ? "text-red-500 dark:text-red-400"
+                  : date.getDay() === 6
+                    ? "text-blue-500 dark:text-blue-400"
+                    : ""
               }
-              className="rounded border p-1"
-            >
-              {[...Array(31)].map((_, idx) => (
-                <option key={idx + 1} value={idx + 1}>{idx + 1}日</option>
-              ))}
-            </select>
-            <select
-              value={specifiedTime.getHours()}
-              onChange={(e) =>
-                setSpecifiedTime(new Date(
-                  specifiedTime.getFullYear(),
-                  specifiedTime.getMonth(),
-                  specifiedTime.getDate(),
-                  parseInt(e.target.value),
-                  specifiedTime.getMinutes()
-                ))
-              }
-              className="rounded border p-1"
-            >
-              {[...Array(24)].map((_, idx) => (
-                <option key={idx} value={idx}>{idx}時</option>
-              ))}
-            </select>
-            <select
-              value={specifiedTime.getMinutes()}
-              onChange={(e) =>
-                setSpecifiedTime(new Date(
-                  specifiedTime.getFullYear(),
-                  specifiedTime.getMonth(),
-                  specifiedTime.getDate(),
-                  specifiedTime.getHours(),
-                  parseInt(e.target.value)
-                ))
-              }
-              className="rounded border p-1"
-            >
-              {[...Array(60)].map((_, idx) => (
-                <option key={idx} value={idx}>{idx}分</option>
-              ))}
-            </select>
+              showTimeSelect={false}
+            />
+
+            {/* 時間選択 */}
+            <div className="flex items-center">
+              <select
+                value={specifiedTime.getHours()}
+                onChange={(e) =>
+                  setSpecifiedTime(new Date(
+                    specifiedTime.getFullYear(),
+                    specifiedTime.getMonth(),
+                    specifiedTime.getDate(),
+                    parseInt(e.target.value),
+                    specifiedTime.getMinutes()
+                  ))
+                }
+                className="rounded border p-2 bg-white dark:bg-gray-800 dark:text-white"
+              >
+                {[...Array(24)].map((_, idx) => (
+                  <option key={idx} value={idx}>{idx}</option>
+                ))}
+              </select>
+              <span className="mx-1">時</span>
+            </div>
+
+            {/* 分選択 */}
+            <div className="flex items-center">
+              <select
+                value={specifiedTime.getMinutes()}
+                onChange={(e) =>
+                  setSpecifiedTime(new Date(
+                    specifiedTime.getFullYear(),
+                    specifiedTime.getMonth(),
+                    specifiedTime.getDate(),
+                    specifiedTime.getHours(),
+                    parseInt(e.target.value)
+                  ))
+                }
+                className="rounded border p-2 bg-white dark:bg-gray-800 dark:text-white"
+              >
+                {[0, 10, 20, 30, 40, 50].map((minute) => (
+                  <option key={minute} value={minute}>{minute}</option>
+                ))}
+              </select>
+              <span className="mx-1">分</span>
+            </div>
           </div>
         )}
 
