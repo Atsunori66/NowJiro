@@ -3,6 +3,7 @@
     "id": 1,
     "name": "三田本店",
     "station": "田町, 三田",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -38,6 +39,7 @@
     "id": 2,
     "name": "目黒店",
     "station": "目黒, 中目黒",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -75,6 +77,7 @@
     "id": 3,
     "name": "仙川店",
     "station": "仙川",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -98,6 +101,7 @@
     "id": 4,
     "name": "新宿歌舞伎町店",
     "station": "新宿, 西武新宿",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -121,6 +125,7 @@
     "id": 5,
     "name": "品川店",
     "station": "品川, 北品川",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -161,6 +166,7 @@
     "id": 6,
     "name": "新宿小滝橋通り店",
     "station": "新宿, 西武新宿",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -185,6 +191,7 @@
     "id": 7,
     "name": "環七新新代田店",
     "station": "新代田",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -208,6 +215,7 @@
     "id": 8,
     "name": "八王子野猿街道店2",
     "station": "京王堀之内",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -253,6 +261,7 @@
     "id": 9,
     "name": "池袋東口店",
     "station": "池袋",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -276,6 +285,7 @@
     "id": 10,
     "name": "亀戸店",
     "station": "亀戸",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -313,6 +323,7 @@
     "id": 11,
     "name": "京急川崎店",
     "station": "川崎, 京急川崎",
+    "prefecture": "神奈川県",
     "opening": [
       {
         "days": [
@@ -353,6 +364,7 @@
     "id": 12,
     "name": "府中店",
     "station": "府中",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -375,6 +387,7 @@
     "id": 13,
     "name": "松戸駅前店",
     "station": "松戸",
+    "prefecture": "千葉県",
     "opening": [
       {
         "days": [
@@ -398,6 +411,7 @@
     "id": 14,
     "name": "めじろ台店",
     "station": "めじろ台",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -438,6 +452,7 @@
     "id": 15,
     "name": "荻窪店",
     "station": "荻窪",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -473,6 +488,7 @@
     "id": 16,
     "name": "上野毛店",
     "station": "上野毛",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -513,6 +529,7 @@
     "id": 17,
     "name": "京成大久保店",
     "station": "京成大久保",
+    "prefecture": "千葉県",
     "opening": [
       {
         "days": [
@@ -536,6 +553,7 @@
     "id": 18,
     "name": "環七一之江店",
     "station": "一之江",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -565,6 +583,7 @@
     "id": 19,
     "name": "相模大野店",
     "station": "相模大野",
+    "prefecture": "神奈川県",
     "opening": [
       {
         "days": [
@@ -608,6 +627,7 @@
     "id": 20,
     "name": "横浜関内店",
     "station": "関内",
+    "prefecture": "神奈川県",
     "opening": [
       {
         "days": [
@@ -643,6 +663,7 @@
     "id": 21,
     "name": "神田神保町店",
     "station": "神保町",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -666,6 +687,7 @@
     "id": 22,
     "name": "小岩店",
     "station": "小岩",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -687,6 +709,7 @@
     "id": 23,
     "name": "ひばりヶ丘駅前店",
     "station": "ひばりヶ丘",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -726,6 +749,7 @@
     "id": 25,
     "name": "栃木街道店",
     "station": "壬生",
+    "prefecture": "栃木県",
     "opening": [
       {
         "days": [
@@ -766,6 +790,7 @@
     "id": 26,
     "name": "立川店",
     "station": "立川",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -801,6 +826,7 @@
     "id": 27,
     "name": "千住大橋駅前店",
     "station": "千住大橋",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -822,6 +848,7 @@
     "id": 28,
     "name": "柏店",
     "station": "柏の葉キャンパス",
+    "prefecture": "千葉県",
     "opening": [
       {
         "days": [
@@ -857,6 +884,7 @@
     "id": 29,
     "name": "湘南藤沢店",
     "station": "藤沢",
+    "prefecture": "神奈川県",
     "opening": [
       {
         "days": [
@@ -890,6 +918,7 @@
     "id": 30,
     "name": "西台駅前店",
     "station": "西台",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -929,6 +958,7 @@
     "id": 31,
     "name": "中山駅前店",
     "station": "中山",
+    "prefecture": "神奈川県",
     "opening": [
       {
         "days": [
@@ -962,6 +992,7 @@
     "id": 32,
     "name": "仙台店2",
     "station": "大町西公園",
+    "prefecture": "宮城県",
     "opening": [
       {
         "days": [
@@ -1003,6 +1034,7 @@
     "id": 33,
     "name": "札幌店",
     "station": "札幌, さっぽろ",
+    "prefecture": "北海道",
     "opening": [
       {
         "days": [
@@ -1043,6 +1075,7 @@
     "id": 34,
     "name": "会津若松駅前店",
     "station": "会津若松",
+    "prefecture": "福島県",
     "opening": [
       {
         "days": [
@@ -1082,6 +1115,7 @@
     "id": 35,
     "name": "新潟店",
     "station": "新潟",
+    "prefecture": "新潟県",
     "opening": [
       {
         "days": [
@@ -1119,6 +1153,7 @@
     "id": 36,
     "name": "川越店",
     "station": "川越",
+    "prefecture": "埼玉県",
     "opening": [
       {
         "days": [
@@ -1159,6 +1194,7 @@
     "id": 37,
     "name": "京都店",
     "station": "一乗寺",
+    "prefecture": "京都府",
     "opening": [
       {
         "days": [
@@ -1212,6 +1248,7 @@
     "id": 38,
     "name": "越谷店",
     "station": "越谷",
+    "prefecture": "埼玉県",
     "opening": [
       {
         "days": [
@@ -1245,6 +1282,7 @@
     "id": 39,
     "name": "前橋千代田町店",
     "station": "中央前橋",
+    "prefecture": "群馬県",
     "opening": [
       {
         "days": [
@@ -1280,6 +1318,7 @@
     "id": 40,
     "name": "千葉店",
     "station": "葭川公園, 千葉中央, 千葉",
+    "prefecture": "千葉県",
     "opening": [
       {
         "days": [
@@ -1315,6 +1354,7 @@
     "id": 41,
     "name": "大宮公園駅前店",
     "station": "大宮公園",
+    "prefecture": "埼玉県",
     "opening": [
       {
         "days": [
@@ -1355,6 +1395,7 @@
     "id": 42,
     "name": "ひたちなか店",
     "station": "勝田",
+    "prefecture": "茨城県",
     "opening": [
       {
         "days": [
@@ -1395,6 +1436,7 @@
     "id": 43,
     "name": "一橋学園店",
     "station": "一橋学園",
+    "prefecture": "東京都",
     "opening": [
       {
         "days": [
@@ -1441,6 +1483,7 @@
     "id": 44,
     "name": "生田店",
     "station": "生田",
+    "prefecture": "神奈川県",
     "opening": [
       {
         "days": [
@@ -1476,6 +1519,7 @@
     "id": 45,
     "name": "朝倉街道駅前店",
     "station": "朝倉街道",
+    "prefecture": "福岡県",
     "opening": [
       {
         "days": [

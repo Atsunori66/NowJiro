@@ -24,6 +24,7 @@ interface Shop {
   id: number;
   name: string;
   station: string;
+  prefecture: string; // 追加
   opening: Schedule[];
   url: string;
   star: number;
@@ -36,6 +37,7 @@ interface ShopData {
   id: number;
   name: string;
   station: string;
+  prefecture: string; // 追加
   days: number[];
   open: string;
   close: string;
@@ -69,7 +71,7 @@ export default function Home() {
   const { setTheme, resolvedTheme } = useTheme();
 
   const [tableData, setTableData] = useState<ShopData[]>([]);
-  const [sortOrder, setSortOrder] = useState<"id" | "star" | "visited" | "location">("id");
+  const [sortOrder, setSortOrder] = useState<"id" | "visited" | "location">("id");
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [userLocationName, setUserLocationName] = useState<string | null>(null);
   const [isLocationLoading, setIsLocationLoading] = useState<boolean>(false);
@@ -224,7 +226,7 @@ export default function Home() {
 
   // ソート順を変更する関数
   const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSortOrder = e.target.value as "id" | "star" | "visited" | "location";
+    const newSortOrder = e.target.value as "id" | "visited" | "location";
     setSortOrder(newSortOrder);
 
     // 「現在地から近い順」が選択された場合、位置情報を取得
@@ -348,6 +350,7 @@ export default function Home() {
           id: shop.id,
           name: shop.name,
           station: shop.station,
+          prefecture: shop.prefecture,
           days: schedule.days,
           open: schedule.open,
           close: schedule.close,
@@ -367,8 +370,6 @@ export default function Home() {
     const sortFunction = (a: ShopData, b: ShopData) => {
       if (sortOrder === "id") {
         return a.id - b.id;
-      } else if (sortOrder === "star") {
-        return b.star - a.star;
       } else if (sortOrder === "visited") {
         // 訪問済みの店舗を優先し、その中では標準順（ID順）でソート
         const aVisited = visitedShops.includes(a.name);
@@ -427,7 +428,7 @@ export default function Home() {
             <p>祝日、臨時休業、年末年始、急な麺切れ等、定休日以外にも休みになっている場合があります。</p>
             <p>各店舗の SNS 等も併せて確認してください。</p>
             <br />
-            <p>ソートメニューから「標準 / 食べログ / 訪問済 / 現在地からの距離」で並び替えできます。</p>
+            <p>ソートメニューから「標準 / 訪問済 / 現在地からの距離」で並び替えできます。</p>
             <p>各店舗の営業情報は 2025年4月時点のものです。</p>
           </div>
         </div>
@@ -469,7 +470,6 @@ export default function Home() {
               className="rounded border p-1"
             >
               <option value="id">標準</option>
-              <option value="star">食べログ</option>
               <option value="visited">訪問済</option>
               <option value="location">現在地からの距離</option>
             </select>
@@ -570,11 +570,11 @@ export default function Home() {
             <thead>
               <tr>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">店名</th>
+                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">都道府県</th>
                 <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">最寄駅</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700">営業日</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">開店時間</th>
                 <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">閉店時間</th>
-                <th className="border border-slate-400 bg-gray-100 dark:bg-gray-700 whitespace-nowrap">食べログ</th>
                 {sortOrder === "location" && userLocation && (
                   <th className="hidden md:table-cell border border-slate-400 bg-gray-100 dark:bg-gray-700">距離</th>
                 )}
@@ -590,6 +590,7 @@ export default function Home() {
                         {row.name}
                       </a>
                     </td>
+                    <td className="border border-slate-400 whitespace-nowrap">{row.prefecture}</td>
                     <td className="hidden md:table-cell border border-slate-400">{row.station}</td>
                     <td className="border border-slate-400">
                       {
@@ -600,7 +601,6 @@ export default function Home() {
                     </td>
                     <td className="border border-slate-400 whitespace-nowrap">{row.open}</td>
                     <td className="border border-slate-400 whitespace-nowrap">{row.close}</td>
-                    <td className="border border-slate-400 whitespace-nowrap">★ {row.star.toFixed(2)}</td>
                     {sortOrder === "location" && userLocation && (
                       <td className="hidden md:table-cell border border-slate-400">
                         {row.distance !== undefined ? (row.distance * 111).toFixed(2) + " km" : "-"}
