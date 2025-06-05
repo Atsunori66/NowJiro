@@ -42,12 +42,12 @@ export default function Tokushou() {
 
           <section>
             <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">所在地</h2>
-            <p className="text-gray-700 dark:text-gray-300">請求があったら遅滞なく開示します。</p>
+            <p className="text-gray-700 dark:text-gray-300">請求がありましたら遅滞なく開示します。</p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">電話番号</h2>
-            <p className="text-gray-700 dark:text-gray-300">請求があったら遅滞なく開示します。</p>
+            <p className="text-gray-700 dark:text-gray-300">請求がありましたら遅滞なく開示します。</p>
           </section>
 
           <section>
@@ -97,7 +97,7 @@ export default function Tokushou() {
 
           <section>
             <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">動作環境</h2>
-            <p className="text-gray-700 dark:text-gray-300">Webブラウザ（最新の Chrome, Edge, Safari, Firefox を推奨）</p>
+            <p className="text-gray-700 dark:text-gray-300">Webブラウザ（最新版の Chrome, Edge, Safari, Firefox を推奨）</p>
           </section>
         </div>
 
