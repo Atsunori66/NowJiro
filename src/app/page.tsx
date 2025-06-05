@@ -624,7 +624,14 @@ export default function Home() {
       </main>
 
       <footer className="p-4 text-center">
-        &copy; {year} nowjiro.com
+        <div className="mb-2">
+          <a href="/tokushou" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline text-sm">
+            特定商取引法に基づく表示
+          </a>
+        </div>
+        <div>
+          &copy; {year} nowjiro.com
+        </div>
       </footer>
     </div>
   );
