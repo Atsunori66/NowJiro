@@ -624,10 +624,15 @@ export default function Home() {
       </main>
 
       <footer className="p-4 text-center">
-        <div className="mb-2">
-          <a href="/tokushou" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline text-sm">
-            特定商取引法に基づく表示
-          </a>
+        <div className="mb-4 space-y-2">
+          <div className="flex justify-center space-x-4 text-sm">
+            <a href="/legal" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
+              利用規約・プライバシーポリシー
+            </a>
+            <a href="/tokushou" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
+              特定商取引法に基づく表示
+            </a>
+          </div>
         </div>
         <div>
           &copy; {year} nowjiro.com

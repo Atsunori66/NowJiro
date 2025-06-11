@@ -92,12 +92,78 @@ export default function Tokushou() {
 
           <section>
             <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">返品・返金について</h2>
-            <p className="text-gray-700 dark:text-gray-300">商品の性質上、返金・返品には応じられません。</p>
+            <div className="text-gray-700 dark:text-gray-300">
+              <p>商品の性質上、返金・返品には応じられません。</p>
+              <p className="mt-2">ただし、以下の場合には返金を検討いたします：</p>
+              <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
+                <li>当サービスの重大な不具合により、サービスが利用できない期間が月の半分以上に及んだ場合</li>
+                <li>当サービス運営者の責に帰すべき事由により、サービス提供が不可能となった場合</li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">不審請求申請について</h2>
+            <div className="text-gray-700 dark:text-gray-300">
+              <p>クレジットカードの不審請求（チャージバック）に関する対応方針：</p>
+              <ul className="list-disc list-inside space-y-1 ml-4 mt-2">
+                <li>身に覚えのない請求については、まず support@nowjiro.com までご連絡ください</li>
+                <li>ご利用履歴を確認の上、適切に対応いたします</li>
+                <li>正当な理由がある場合は、速やかに返金処理を行います</li>
+                <li>不正利用が疑われる場合は、アカウントの一時停止等の措置を講じます</li>
+                <li>チャージバック申請前に、必ず当サービスまでご相談ください</li>
+              </ul>
+            </div>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">動作環境</h2>
             <p className="text-gray-700 dark:text-gray-300">Webブラウザ（最新版の Chrome, Edge, Safari, Firefox を推奨）</p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold mb-2 border-b-2 border-yellow-300 pb-1">お問い合わせ・カスタマーサポート</h2>
+            <div className="space-y-4 text-gray-700 dark:text-gray-300">
+              <div>
+                <h3 className="font-semibold mb-2">メールアドレス</h3>
+                <p>
+                  <a href="mailto:support@nowjiro.com" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
+                    support@nowjiro.com
+                  </a>
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  ※ 24時間以内にご返信いたします
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">営業時間</h3>
+                <p>平日 9:00 - 18:00（土日祝日を除く）</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">対応言語</h3>
+                <p>日本語、英語</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">よくあるお問い合わせ</h3>
+                <div className="space-y-3 ml-4">
+                  <div>
+                    <p className="font-medium">Q. サブスクリプションの解約方法を教えてください</p>
+                    <p className="text-sm">A. マイページから次回決済日の24時間前までに解約手続きを行ってください。</p>
+                  </div>
+                  <div>
+                    <p className="font-medium">Q. 店舗情報が間違っている場合はどうすればよいですか？</p>
+                    <p className="text-sm">A. support@nowjiro.com までご連絡ください。確認の上、速やかに修正いたします。</p>
+                  </div>
+                  <div>
+                    <p className="font-medium">Q. 技術的な問題が発生した場合はどうすればよいですか？</p>
+                    <p className="text-sm">A. ブラウザの種類・バージョン、発生した問題の詳細を記載の上、support@nowjiro.com までご連絡ください。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
 
