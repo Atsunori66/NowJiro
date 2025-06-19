@@ -9,6 +9,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ja } from "date-fns/locale/ja"; // 日本語ロケール
 import ShopData from "./shopData.json";
+import SubscribeButton from "./components/Checkout";
+import SubscriptionSection from "./components/SubscriptionSection";
+import { AuthStatus } from "./components/AuthStatus";
 
 // 日本語ロケールを登録
 registerLocale("ja", ja);
@@ -403,12 +406,18 @@ export default function Home() {
   return (
     <div className="grid gap-4">
 
-      <header className="m-2 flex">
+      <header className="m-2 flex items-center">
         <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
           今行ける二郎
         </div>
+        
+        {/* 認証状態表示 */}
+        <div className="ml-auto mr-4">
+          <AuthStatus />
+        </div>
+        
         {/* テーマカラートグルボタン */}
-        <button className="place-self-center ml-auto mr-6"
+        <button className="mr-6"
           onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
         >
           {
@@ -620,6 +629,9 @@ export default function Home() {
             </tbody>
           </table>
         </div>
+
+        {/* 購入ボタンセクション */}
+        <SubscriptionSection />
 
       </main>
 
