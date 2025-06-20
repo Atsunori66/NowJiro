@@ -39,7 +39,10 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
 
   // サブスクリプション状態をSupabaseから取得
   const fetchSubscriptionStatus = async () => {
+    console.log('🔍 fetchSubscriptionStatus called', { user: user?.id, isAuthenticated });
+    
     if (!user || !isAuthenticated) {
+      console.log('❌ No user or not authenticated, setting defaults');
       setIsSubscribed(false);
       setSubscription(null);
       setLoading(false);
@@ -49,6 +52,8 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
+      
+      console.log('🔍 Querying subscriptions for user:', user.id);
 
       const { data, error: fetchError } = await supabase
         .from('subscriptions')
@@ -57,8 +62,10 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
         .order('created_at', { ascending: false })
         .limit(1);
 
+      console.log('📊 Supabase query result:', { data, error: fetchError });
+
       if (fetchError) {
-        console.error('サブスクリプション取得エラー:', fetchError);
+        console.error('❌ サブスクリプション取得エラー:', fetchError);
         setError('サブスクリプション情報の取得に失敗しました');
         setIsSubscribed(false);
         setSubscription(null);
@@ -67,6 +74,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
 
       if (data && data.length > 0) {
         const latestSubscription = data[0] as Subscription;
+        console.log('✅ Found subscription:', latestSubscription);
         setSubscription(latestSubscription);
         
         // アクティブなサブスクリプションかチェック
@@ -78,13 +86,23 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
         const periodEnd = new Date(latestSubscription.current_period_end);
         const isWithinPeriod = now <= periodEnd;
         
+        console.log('🔍 Subscription validation:', {
+          status: latestSubscription.status,
+          isActive,
+          now: now.toISOString(),
+          periodEnd: periodEnd.toISOString(),
+          isWithinPeriod,
+          finalResult: isActive && isWithinPeriod
+        });
+        
         setIsSubscribed(isActive && isWithinPeriod);
       } else {
+        console.log('❌ No subscription data found');
         setIsSubscribed(false);
         setSubscription(null);
       }
     } catch (err) {
-      console.error('サブスクリプション状態の確認中にエラーが発生:', err);
+      console.error('❌ サブスクリプション状態の確認中にエラーが発生:', err);
       setError('サブスクリプション状態の確認に失敗しました');
       setIsSubscribed(false);
       setSubscription(null);

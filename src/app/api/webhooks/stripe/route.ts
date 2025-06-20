@@ -55,48 +55,128 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
   console.log('Processing checkout.session.completed:', session.id);
 
   if (session.mode === 'subscription' && session.subscription) {
-    const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
-    const supabaseAdmin = createAdminClient();
-    
-    // カスタマーのメールアドレスからユーザーを検索
-    const customerEmail = session.customer_details?.email;
-    if (!customerEmail) {
-      console.error('No customer email found in session');
-      return;
-    }
-
-    // Supabase Authでユーザーを検索
-    const { data: { users }, error: userError } = await supabaseAdmin.auth.admin.listUsers();
-    
-    if (userError) {
-      console.error('Error fetching users:', userError);
-      return;
-    }
-
-    const user = users.find((u: any) => u.email === customerEmail);
-    
-    if (!user) {
-      console.error('User not found:', customerEmail);
-      return;
-    }
-
-    // サブスクリプション情報を保存
-    const { error: subscriptionError } = await supabaseAdmin
-      .from('subscriptions')
-      .upsert({
-        user_id: user.id,
-        stripe_customer_id: subscription.customer as string,
-        stripe_subscription_id: subscription.id,
+    try {
+      // expandパラメータで完全なデータを取得
+      const subscription = await stripe.subscriptions.retrieve(
+        session.subscription as string,
+        { expand: ['latest_invoice'] }
+      );
+      
+      console.log('Retrieved subscription with expand:', {
+        id: subscription.id,
         status: subscription.status,
-        current_period_start: new Date((subscription as any).current_period_start * 1000).toISOString(),
-        current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
-        cancel_at_period_end: subscription.cancel_at_period_end,
+        current_period_start: (subscription as any).current_period_start,
+        current_period_end: (subscription as any).current_period_end,
+        customer: subscription.customer,
+        items: (subscription as any).items,
+        latest_invoice: (subscription as any).latest_invoice
       });
 
-    if (subscriptionError) {
-      console.error('Error saving subscription:', subscriptionError);
-    } else {
-      console.log('Subscription saved successfully for user:', user.id);
+      const supabaseAdmin = createAdminClient();
+      
+      // カスタマーのメールアドレスからユーザーを検索
+      const customerEmail = session.customer_details?.email;
+      if (!customerEmail) {
+        console.error('No customer email found in session');
+        return;
+      }
+
+      // Supabase Authでユーザーを検索
+      const { data: { users }, error: userError } = await supabaseAdmin.auth.admin.listUsers();
+      
+      if (userError) {
+        console.error('Error fetching users:', userError);
+        return;
+      }
+
+      const user = users.find((u: any) => u.email === customerEmail);
+      
+      if (!user) {
+        console.error('User not found:', customerEmail);
+        return;
+      }
+
+      // Stripeから正しい期間情報を取得（優先順位順）
+      let periodStart: string;
+      let periodEnd: string;
+      let dataSource: string;
+      
+      // 1. Subscription Items から取得を試行（Stripe推奨）
+      const subscriptionItems = (subscription as any).items?.data;
+      const firstItem = subscriptionItems?.[0];
+      
+      console.log('Subscription Items data:', {
+        items_count: subscriptionItems?.length,
+        first_item: firstItem ? {
+          id: firstItem.id,
+          current_period_start: firstItem.current_period_start,
+          current_period_end: firstItem.current_period_end,
+          price: firstItem.price?.id
+        } : null
+      });
+      
+      if (firstItem?.current_period_start && firstItem?.current_period_end) {
+        periodStart = new Date(firstItem.current_period_start * 1000).toISOString();
+        periodEnd = new Date(firstItem.current_period_end * 1000).toISOString();
+        dataSource = 'subscription_items';
+        console.log('✅ Using Subscription Items period data');
+      } else {
+        // 2. Invoice Lines から取得を試行（フォールバック）
+        console.log('Subscription Items unavailable, trying Invoice Lines...');
+        const latestInvoice = (subscription as any).latest_invoice;
+        const lineItem = latestInvoice?.lines?.data?.[0];
+        
+        console.log('Invoice Lines data:', {
+          invoice_id: latestInvoice?.id,
+          line_item: lineItem ? {
+            period: lineItem.period,
+            price: lineItem.price?.id
+          } : null
+        });
+        
+        if (lineItem?.period?.start && lineItem?.period?.end) {
+          periodStart = new Date(lineItem.period.start * 1000).toISOString();
+          periodEnd = new Date(lineItem.period.end * 1000).toISOString();
+          dataSource = 'invoice_lines';
+          console.log('✅ Using Invoice Lines period data');
+        } else {
+          // 3. デフォルトで1ヶ月間を設定（最終フォールバック）
+          const now = new Date();
+          const oneMonthLater = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+          periodStart = now.toISOString();
+          periodEnd = oneMonthLater.toISOString();
+          dataSource = 'default_fallback';
+          console.warn('⚠️ Using default 1-month period (no valid period data found)');
+        }
+      }
+
+      console.log('Final processed dates:', {
+        periodStart,
+        periodEnd,
+        duration_days: Math.round((new Date(periodEnd).getTime() - new Date(periodStart).getTime()) / (1000 * 60 * 60 * 24)),
+        data_source: dataSource
+      });
+
+      // サブスクリプション情報を保存
+      const { error: subscriptionError } = await supabaseAdmin
+        .from('subscriptions')
+        .upsert({
+          user_id: user.id,
+          stripe_customer_id: subscription.customer as string,
+          stripe_subscription_id: subscription.id,
+          status: subscription.status,
+          current_period_start: periodStart,
+          current_period_end: periodEnd,
+          cancel_at_period_end: subscription.cancel_at_period_end,
+        });
+
+      if (subscriptionError) {
+        console.error('Error saving subscription:', subscriptionError);
+      } else {
+        console.log('Subscription saved successfully for user:', user.id);
+      }
+    } catch (error) {
+      console.error('Error in handleCheckoutSessionCompleted:', error);
     }
   }
 }
@@ -105,16 +185,82 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
   console.log('Processing invoice.payment_succeeded:', invoice.id);
 
   if ((invoice as any).subscription) {
-    const subscription = await stripe.subscriptions.retrieve((invoice as any).subscription as string);
+    try {
+      const subscription = await stripe.subscriptions.retrieve((invoice as any).subscription as string);
+      const supabaseAdmin = createAdminClient();
+      
+      // 安全な日付処理
+      const safeDate = (timestamp: number | undefined | null): string => {
+        if (!timestamp || typeof timestamp !== 'number' || timestamp <= 0) {
+          console.warn('Invalid timestamp:', timestamp, 'using current date');
+          return new Date().toISOString();
+        }
+        try {
+          const date = new Date(timestamp * 1000);
+          if (isNaN(date.getTime())) {
+            console.warn('Invalid date from timestamp:', timestamp, 'using current date');
+            return new Date().toISOString();
+          }
+          return date.toISOString();
+        } catch (error) {
+          console.error('Error converting timestamp to date:', timestamp, error);
+          return new Date().toISOString();
+        }
+      };
+
+      // サブスクリプション情報を更新
+      const { error } = await supabaseAdmin
+        .from('subscriptions')
+        .update({
+          status: subscription.status,
+          current_period_start: safeDate((subscription as any).current_period_start),
+          current_period_end: safeDate((subscription as any).current_period_end),
+          cancel_at_period_end: subscription.cancel_at_period_end,
+        })
+        .eq('stripe_subscription_id', subscription.id);
+
+      if (error) {
+        console.error('Error updating subscription:', error);
+      } else {
+        console.log('Subscription updated successfully:', subscription.id);
+      }
+    } catch (error) {
+      console.error('Error in handleInvoicePaymentSucceeded:', error);
+    }
+  }
+}
+
+async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  console.log('Processing customer.subscription.updated:', subscription.id);
+
+  try {
     const supabaseAdmin = createAdminClient();
     
-    // サブスクリプション情報を更新
+    // 安全な日付処理
+    const safeDate = (timestamp: number | undefined | null): string => {
+      if (!timestamp || typeof timestamp !== 'number' || timestamp <= 0) {
+        console.warn('Invalid timestamp:', timestamp, 'using current date');
+        return new Date().toISOString();
+      }
+      try {
+        const date = new Date(timestamp * 1000);
+        if (isNaN(date.getTime())) {
+          console.warn('Invalid date from timestamp:', timestamp, 'using current date');
+          return new Date().toISOString();
+        }
+        return date.toISOString();
+      } catch (error) {
+        console.error('Error converting timestamp to date:', timestamp, error);
+        return new Date().toISOString();
+      }
+    };
+
     const { error } = await supabaseAdmin
       .from('subscriptions')
       .update({
         status: subscription.status,
-        current_period_start: new Date((subscription as any).current_period_start * 1000).toISOString(),
-        current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
+        current_period_start: safeDate((subscription as any).current_period_start),
+        current_period_end: safeDate((subscription as any).current_period_end),
         cancel_at_period_end: subscription.cancel_at_period_end,
       })
       .eq('stripe_subscription_id', subscription.id);
@@ -124,27 +270,8 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
     } else {
       console.log('Subscription updated successfully:', subscription.id);
     }
-  }
-}
-
-async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
-  console.log('Processing customer.subscription.updated:', subscription.id);
-
-  const supabaseAdmin = createAdminClient();
-  const { error } = await supabaseAdmin
-    .from('subscriptions')
-    .update({
-      status: subscription.status,
-      current_period_start: new Date((subscription as any).current_period_start * 1000).toISOString(),
-      current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
-      cancel_at_period_end: subscription.cancel_at_period_end,
-    })
-    .eq('stripe_subscription_id', subscription.id);
-
-  if (error) {
-    console.error('Error updating subscription:', error);
-  } else {
-    console.log('Subscription updated successfully:', subscription.id);
+  } catch (error) {
+    console.error('Error in handleSubscriptionUpdated:', error);
   }
 }
 
