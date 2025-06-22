@@ -15,9 +15,13 @@ export default function ConditionalAds() {
   const { isSubscribed, loading: subscriptionLoading } = useSubscription();
   
   const isTokenshouPage = pathname === '/tokushou';
+  const isAuthPage = pathname.startsWith('/auth');
+  const isSuccessPage = pathname === '/success';
+  const isCancelPage = pathname === '/cancel';
+  const isLegalPage = pathname === '/legal';
   
-  // 特定商取引法ページの場合は広告を非表示
-  if (isTokenshouPage) {
+  // 以下のページでは広告を非表示
+  if (isTokenshouPage || isAuthPage || isSuccessPage || isCancelPage || isLegalPage) {
     return null;
   }
 
