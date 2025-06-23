@@ -406,26 +406,28 @@ export default function Home() {
   return (
     <div className="grid gap-4">
 
-      <header className="m-2 flex items-center">
-        <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
-          今行ける二郎
+      <header className="m-2">
+        <div className="flex items-center">
+          <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
+            今行ける二郎
+          </div>
+          
+          {/* テーマカラートグルボタン */}
+          <button className="ml-auto mr-6"
+            onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+          >
+            {
+              resolvedTheme === "dark"
+                ? <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300" />
+                : <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300" />
+            }
+          </button>
         </div>
         
-        {/* 認証状態表示 */}
-        <div className="ml-auto mr-4">
+        {/* 認証状態表示 - トグルボタンの下に移動 */}
+        <div className="mt-4 flex justify-end">
           <AuthStatus />
         </div>
-        
-        {/* テーマカラートグルボタン */}
-        <button className="mr-6"
-          onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
-        >
-          {
-            resolvedTheme === "dark"
-              ? <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300" />
-              : <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300" />
-          }
-        </button>
       </header>
 
       <main className="p-4">

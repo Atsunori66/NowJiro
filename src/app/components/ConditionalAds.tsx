@@ -7,7 +7,7 @@ import MonetagPush from "./monetag/Push";
 import MonetagInpage from "./monetag/InpagePush";
 import MonetagInterstitial from "./monetag/Interstitial";
 import MonetagVignette from "./monetag/Vignette";
-import GoogleAdsense from "./GoogleAdsense";
+// import GoogleAdsense from "./GoogleAdsense";
 
 export default function ConditionalAds() {
   const pathname = usePathname();
@@ -44,7 +44,7 @@ export default function ConditionalAds() {
       <MonetagInpage/>
       <MonetagInterstitial/>
       <MonetagVignette/>
-      <GoogleAdsense/>
+      {/* <GoogleAdsense/> */}
     </>
   );
 }
