@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSubscription } from "../contexts/SubscriptionContext";
 import { useAuth } from "@/hooks/useAuth";
 import SubscribeButton from "./Checkout";
+import CustomerPortal from "./CustomerPortal";
 
 export default function SubscriptionSection() {
   const { user, loading: authLoading } = useAuth();
@@ -28,18 +29,23 @@ export default function SubscriptionSection() {
     
     return (
       <div id="subscribe" className="mt-12 mb-8">
-        <div className="text-center">
-          <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border border-green-200 dark:border-green-800 max-w-md mx-auto">
-            <h2 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-2">
-              ✨ 広告非表示プラン有効
-            </h2>
-            <p className="text-sm text-green-700 dark:text-green-300 mb-2">
-              ご利用ありがとうございます。広告なしで快適にご利用いただけます。
-            </p>
-            <p className="text-xs text-green-600 dark:text-green-400">
-              次回更新日: {formattedDate}
-            </p>
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-6">
+            <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border border-green-200 dark:border-green-800">
+              <h2 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-2">
+                ✨ 広告非表示プラン有効
+              </h2>
+              <p className="text-sm text-green-700 dark:text-green-300 mb-2">
+                ご利用ありがとうございます。広告なしで快適にご利用いただけます。
+              </p>
+              <p className="text-xs text-green-600 dark:text-green-400">
+                次回更新日: {formattedDate}
+              </p>
+            </div>
           </div>
+          
+          {/* Customer Portal */}
+          <CustomerPortal />
         </div>
       </div>
     );
