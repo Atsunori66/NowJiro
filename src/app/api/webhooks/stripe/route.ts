@@ -297,39 +297,101 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   try {
     const supabaseAdmin = createAdminClient();
     
-    // 安全な日付処理
-    const safeDate = (timestamp: number | undefined | null): string => {
-      if (!timestamp || typeof timestamp !== 'number' || timestamp <= 0) {
-        console.warn('Invalid timestamp:', timestamp, 'using current date');
-        return new Date().toISOString();
-      }
-      try {
-        const date = new Date(timestamp * 1000);
-        if (isNaN(date.getTime())) {
-          console.warn('Invalid date from timestamp:', timestamp, 'using current date');
-          return new Date().toISOString();
-        }
-        return date.toISOString();
-      } catch (error) {
-        console.error('Error converting timestamp to date:', timestamp, error);
-        return new Date().toISOString();
-      }
-    };
+    // 期間データの優先順位で取得
+    let periodStart: string;
+    let periodEnd: string;
+    let dataSource: string;
+    
+    console.log('=== 📅 PERIOD DATA EXTRACTION ===');
+    console.log('Subscription ID:', subscription.id);
+    console.log('Status:', subscription.status);
+    
+    // 1. Subscription Items から取得（最優先）
+    const subscriptionItems = (subscription as any).items?.data;
+    const firstItem = subscriptionItems?.[0];
+    
+    console.log('Subscription Items data:', {
+      items_count: subscriptionItems?.length,
+      first_item: firstItem ? {
+        id: firstItem.id,
+        current_period_start: firstItem.current_period_start,
+        current_period_end: firstItem.current_period_end,
+        price: firstItem.price?.id
+      } : null
+    });
+    
+    if (firstItem?.current_period_start && firstItem?.current_period_end) {
+      periodStart = new Date(firstItem.current_period_start * 1000).toISOString();
+      periodEnd = new Date(firstItem.current_period_end * 1000).toISOString();
+      dataSource = 'subscription_items';
+      console.log('✅ Using Subscription Items period data');
+    } 
+    // 2. Subscription レベルから取得（フォールバック）
+    else if ((subscription as any).current_period_start && (subscription as any).current_period_end) {
+      periodStart = new Date((subscription as any).current_period_start * 1000).toISOString();
+      periodEnd = new Date((subscription as any).current_period_end * 1000).toISOString();
+      dataSource = 'subscription_level';
+      console.log('✅ Using Subscription level period data');
+    }
+    // 3. エラー処理（期間データなし）
+    else {
+      console.error('❌ No valid period data found in subscription update');
+      console.log('Available data:', {
+        subscription_period_start: (subscription as any).current_period_start,
+        subscription_period_end: (subscription as any).current_period_end,
+        items_available: !!subscriptionItems?.length
+      });
+      return;
+    }
+
+    console.log('Final processed dates:', {
+      periodStart,
+      periodEnd,
+      duration_days: Math.round((new Date(periodEnd).getTime() - new Date(periodStart).getTime()) / (1000 * 60 * 60 * 24)),
+      data_source: dataSource
+    });
+
+    // 既存レコードの確認
+    const { data: existingSubscriptions, error: fetchError } = await supabaseAdmin
+      .from('subscriptions')
+      .select('*')
+      .eq('stripe_subscription_id', subscription.id);
+
+    if (fetchError) {
+      console.error('Error fetching existing subscription:', fetchError);
+      return;
+    }
+
+    if (!existingSubscriptions || existingSubscriptions.length === 0) {
+      console.warn('⚠️ No existing subscription found for update:', subscription.id);
+      return;
+    }
+
+    console.log('=== 💾 UPDATING SUBSCRIPTION DATA ===');
+    console.log('Existing records found:', existingSubscriptions.length);
+    console.log('Updating with:', {
+      status: subscription.status,
+      periodStart,
+      periodEnd,
+      cancel_at_period_end: subscription.cancel_at_period_end
+    });
 
     const { error } = await supabaseAdmin
       .from('subscriptions')
       .update({
         status: subscription.status,
-        current_period_start: safeDate((subscription as any).current_period_start),
-        current_period_end: safeDate((subscription as any).current_period_end),
+        current_period_start: periodStart,
+        current_period_end: periodEnd,
         cancel_at_period_end: subscription.cancel_at_period_end,
       })
       .eq('stripe_subscription_id', subscription.id);
 
     if (error) {
-      console.error('Error updating subscription:', error);
+      console.error('❌ Error updating subscription:', error);
+      console.log('Error details:', JSON.stringify(error, null, 2));
     } else {
-      console.log('Subscription updated successfully:', subscription.id);
+      console.log('✅ Subscription updated successfully:', subscription.id);
+      console.log('=== 🎉 SUBSCRIPTION UPDATE COMPLETED ===');
     }
   } catch (error) {
     console.error('Error in handleSubscriptionUpdated:', error);
@@ -339,17 +401,52 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log('Processing customer.subscription.deleted:', subscription.id);
 
-  const supabaseAdmin = createAdminClient();
-  const { error } = await supabaseAdmin
-    .from('subscriptions')
-    .update({
-      status: 'canceled',
-    })
-    .eq('stripe_subscription_id', subscription.id);
+  try {
+    const supabaseAdmin = createAdminClient();
+    
+    console.log('=== 🗑️ SUBSCRIPTION DELETION ===');
+    console.log('Subscription ID:', subscription.id);
+    console.log('Customer ID:', subscription.customer);
+    
+    // 既存レコードの確認
+    const { data: existingSubscriptions, error: fetchError } = await supabaseAdmin
+      .from('subscriptions')
+      .select('*')
+      .eq('stripe_subscription_id', subscription.id);
 
-  if (error) {
-    console.error('Error canceling subscription:', error);
-  } else {
-    console.log('Subscription canceled successfully:', subscription.id);
+    if (fetchError) {
+      console.error('❌ Error fetching existing subscription:', fetchError);
+      return;
+    }
+
+    console.log('Existing subscriptions found:', existingSubscriptions?.length || 0);
+    
+    if (!existingSubscriptions || existingSubscriptions.length === 0) {
+      console.warn('⚠️ No existing subscription found for deletion:', subscription.id);
+      console.log('This may be a webhook for a subscription that was never created in our database');
+      console.log('Skipping deletion to prevent creating unnecessary canceled records');
+      return;
+    }
+
+    // 既存レコードをキャンセル状態に更新
+    console.log('=== 💾 UPDATING SUBSCRIPTION STATUS ===');
+    console.log('Updating', existingSubscriptions.length, 'record(s) to canceled status');
+    
+    const { error } = await supabaseAdmin
+      .from('subscriptions')
+      .update({
+        status: 'canceled',
+      })
+      .eq('stripe_subscription_id', subscription.id);
+
+    if (error) {
+      console.error('❌ Error canceling subscription:', error);
+      console.log('Error details:', JSON.stringify(error, null, 2));
+    } else {
+      console.log('✅ Subscription canceled successfully:', subscription.id);
+      console.log('=== 🎉 SUBSCRIPTION DELETION COMPLETED ===');
+    }
+  } catch (error) {
+    console.error('Error in handleSubscriptionDeleted:', error);
   }
 }
