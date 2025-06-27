@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ja } from "date-fns/locale/ja"; // 日本語ロケール
 import ShopData from "./shopData.json";
-import SubscribeButton from "./components/Checkout";
+// import SubscribeButton from "./components/Checkout";
 import SubscriptionSection from "./components/SubscriptionSection";
 import { AuthStatus } from "./components/AuthStatus";
 
