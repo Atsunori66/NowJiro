@@ -52,15 +52,6 @@ export default function Success() {
                 </p>
               </div>
 
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-md">
-                <h2 className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2">
-                  📧 確認メール
-                </h2>
-                <p className="text-sm text-blue-700 dark:text-blue-300">
-                  登録確認メールをお送りしました。メールボックスをご確認ください。
-                </p>
-              </div>
-
               <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
                 <h2 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
                   💳 請求について

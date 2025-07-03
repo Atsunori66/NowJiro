@@ -4,12 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import ShopData from "./shopData.json";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ja } from "date-fns/locale/ja"; // 日本語ロケール
-import ShopData from "./shopData.json";
-// import SubscribeButton from "./components/Checkout";
 import SubscriptionSection from "./components/SubscriptionSection";
 import { AuthStatus } from "./components/AuthStatus";
 
