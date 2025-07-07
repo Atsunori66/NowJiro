@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { useSubscription } from "../contexts/SubscriptionContext";
 import { useAuth } from "@/hooks/useAuth";
 import MonetagPush from "./monetag/Push";
@@ -19,6 +20,46 @@ export default function ConditionalAds() {
   const isSuccessPage = pathname === '/success';
   const isCancelPage = pathname === '/cancel';
   const isLegalPage = pathname === '/legal';
+  
+  // 認証ページで広告スクリプトを強制的に削除
+  useEffect(() => {
+    if (isAuthPage) {
+      // Monetag広告スクリプトを削除
+      const removeAdScripts = () => {
+        // Monetag関連のスクリプトを削除
+        const scripts = document.querySelectorAll('script[src*="monetag"], script[src*="ads"], script[data-cfasync]');
+        scripts.forEach(script => {
+          script.remove();
+        });
+        
+        // Monetag関連のDOM要素を削除
+        const adElements = document.querySelectorAll(
+          '[id*="monetag"], [class*="monetag"], [id*="ads"], [class*="ads"], ' +
+          '.ad, .advertisement, [data-ad], [data-ads]'
+        );
+        adElements.forEach(element => {
+          element.remove();
+        });
+        
+        // iframe広告を削除
+        const iframes = document.querySelectorAll('iframe[src*="ads"], iframe[src*="monetag"]');
+        iframes.forEach(iframe => {
+          iframe.remove();
+        });
+      };
+      
+      // 即座に実行
+      removeAdScripts();
+      
+      // 定期的にチェック（広告が動的に挿入される場合に対応）
+      const interval = setInterval(removeAdScripts, 500);
+      
+      // クリーンアップ
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [isAuthPage, pathname]);
   
   // 以下のページでは広告を非表示
   if (isTokenshouPage || isAuthPage || isSuccessPage || isCancelPage || isLegalPage) {
