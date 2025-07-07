@@ -624,7 +624,7 @@ export default function Home() {
       </main>
 
       <footer className="p-4 text-center">
-        <div className="mb-4 space-y-2">
+        {/* <div className="mb-4 space-y-2">
           <div className="flex justify-center space-x-4 text-sm">
             <a href="/legal" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
               利用規約・プライバシーポリシー
@@ -633,7 +633,7 @@ export default function Home() {
               特定商取引法に基づく表示
             </a>
           </div>
-        </div>
+        </div> */}
         <div>
           &copy; {year} nowjiro.com
         </div>
