@@ -8,9 +8,9 @@ import ShopData from "./shopData.json";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
-import { ja } from "date-fns/locale/ja"; // 日本語ロケール
-import SubscriptionSection from "./components/SubscriptionSection";
-import { AuthStatus } from "./components/AuthStatus";
+import { ja } from "date-fns/locale/ja";
+// import SubscriptionSection from "./components/SubscriptionSection";
+// import { AuthStatus } from "./components/AuthStatus";
 
 // 日本語ロケールを登録
 registerLocale("ja", ja);
@@ -34,7 +34,6 @@ interface Shop {
   lng?: number;  // 経度
 }
 
-// MEMO: ShopとShopDataに重複があります。共通部分を抽出して継承することも検討できます
 interface ShopData {
   id: number;
   name: string;
