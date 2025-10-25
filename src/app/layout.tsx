@@ -4,7 +4,8 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Provider } from "./components/Provider";
-// import ConditionalAds from "./components/ConditionalAds";
+import { SubscriptionProvider } from "./contexts/SubscriptionContext";
+import ClientOnlyAds from "./components/ClientOnlyAds";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,11 +44,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      {/* <ConditionalAds /> */}
-
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider>
-          {children}
+          <SubscriptionProvider>
+            <ClientOnlyAds />
+            {children}
+          </SubscriptionProvider>
         </Provider>
       </body>
 

@@ -35,7 +35,7 @@ export default function Legal() {
               この利用規約・プライバシーポリシー（以下「本規約」）は、今行ける二郎（以下「当サービス」）の利用条件および個人情報の取り扱いを定めるものです。
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              最終更新日：2025年6月11日
+              最終更新日：2025年6月12日
             </p>
           </section>
 
@@ -48,15 +48,15 @@ export default function Legal() {
                 <h3 className="text-xl font-semibold mb-4 border-b border-yellow-300 pb-1">第1条（サービス内容）</h3>
                 <div className="space-y-2">
                   <p>1. 当サービスは、ラーメン二郎の各店舗のうち現在営業中の店舗を一覧で確認できるウェブサービスです。</p>
-                  <p>2. 有料プラン（月額1ドル）では、広告の非表示機能を提供します。</p>
+                  <p>2. 有料プラン（月額 1 ドル）では、広告の非表示機能を提供します。</p>
                 </div>
               </section>
 
               <section>
                 <h3 className="text-xl font-semibold mb-4 border-b border-yellow-300 pb-1">第2条（利用料金及び支払方法）</h3>
                 <div className="space-y-2">
-                  <p>1. 有料プランの利用料金は月額1アメリカドル（税込）とします。</p>
-                  <p>2. 支払方法はクレジットカード決済のみとし、Stripe Inc.のサービスを利用します。</p>
+                  <p>1. 有料プランの利用料金は月額 1 アメリカドル（税込）とします。</p>
+                  <p>2. 支払方法はクレジットカード決済のみとし、Stripe Inc. のサービスを利用します。</p>
                   <p>3. 利用料金は申込時および毎月1回、初回支払日を起点として自動決済されます。</p>
                 </div>
               </section>
@@ -121,11 +121,11 @@ export default function Legal() {
               <section>
                 <h3 className="text-xl font-semibold mb-4 border-b border-yellow-300 pb-1">3. 情報の共有</h3>
                 <div className="space-y-3">
-                  <p>当サービスは、以下の場合を除き、ユーザーの個人情報を第三者に提供しません：</p>
+                  <p>当サービスは、以下の場合を除き、ユーザーの個人情報を第三者に提供しません:</p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
                     <li>ユーザーの同意がある場合</li>
                     <li>法令に基づく場合</li>
-                    <li>サービス提供に必要な業務委託先（Stripe等）</li>
+                    <li>サービス提供に必要な業務委託先（Stripe 等）</li>
                   </ul>
                 </div>
               </section>
@@ -133,15 +133,15 @@ export default function Legal() {
               <section>
                 <h3 className="text-xl font-semibold mb-4 border-b border-yellow-300 pb-1">4. 第三者サービス</h3>
                 <div className="space-y-3">
-                  <p><strong>決済処理：</strong>Stripe Inc.のサービスを利用しています。決済情報はStripeのプライバシーポリシーに従って処理されます。</p>
-                  <p><strong>アクセス解析：</strong>Google Analyticsを使用してアクセス解析を行っています。</p>
-                  <p><strong>広告配信：</strong>第三者の広告配信サービスを利用しており、これらのサービスがCookieを使用する場合があります。</p>
+                  <p><strong>決済処理:</strong> Stripe Inc. のサービスを利用しています。決済情報は Stripe のプライバシーポリシーに従って処理されます。</p>
+                  <p><strong>アクセス解析:</strong> Google Analytics を使用してアクセス解析を行っています。</p>
+                  <p><strong>広告配信:</strong> 第三者の広告配信サービスを利用しており、これらのサービスが Cookie を使用する場合があります。</p>
                 </div>
               </section>
 
               <section>
                 <h3 className="text-xl font-semibold mb-4 border-b border-yellow-300 pb-1">5. ユーザーの権利</h3>
-                <p>ユーザーは、自身の個人情報について以下の権利を有します：</p>
+                <p>ユーザーは、自身の個人情報について以下の権利を有します:</p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>開示請求</li>
                   <li>訂正・削除請求</li>
@@ -169,10 +169,10 @@ export default function Legal() {
 
               <section>
                 <h3 className="text-xl font-semibold mb-4 border-b border-yellow-300 pb-1">お問い合わせ</h3>
-                <p>本規約に関するお問い合わせは、以下までご連絡ください：</p>
+                <p>本規約に関するお問い合わせは、以下までご連絡ください: </p>
                 <div className="mt-2 ml-4">
-                  <p>事業者：角田 篤紀</p>
-                  <p>メールアドレス：
+                  <p>事業者: 角田 篤紀</p>
+                  <p>メールアドレス:&nbsp;
                     <a href="mailto:support@nowjiro.com" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
                       support@nowjiro.com
                     </a>

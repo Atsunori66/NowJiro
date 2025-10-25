@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import ShopData from "./shopData.json";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ja } from "date-fns/locale/ja"; // 日本語ロケール
-import ShopData from "./shopData.json";
+import SubscriptionSection from "./components/SubscriptionSection";
+import { AuthStatus } from "./components/AuthStatus";
 
 // 日本語ロケールを登録
 registerLocale("ja", ja);
@@ -403,20 +405,28 @@ export default function Home() {
   return (
     <div className="grid gap-4">
 
-      <header className="m-2 flex">
-        <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
-          今行ける二郎
+      <header className="m-2">
+        <div className="flex items-center">
+          <div className="p-4 bg-yellow-300 w-64 text-black font-black text-4xl">
+            今行ける二郎
+          </div>
+          
+          {/* テーマカラートグルボタン */}
+          <button className="ml-auto mr-6"
+            onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+          >
+            {
+              resolvedTheme === "dark"
+                ? <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300" />
+                : <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300" />
+            }
+          </button>
         </div>
-        {/* テーマカラートグルボタン */}
-        <button className="place-self-center ml-auto mr-6"
-          onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
-        >
-          {
-            resolvedTheme === "dark"
-              ? <MoonIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-yellow-300 fill-yellow-300" />
-              : <SunIcon aria-hidden="true" className="-mr-1 h-5 w-5 stroke-orange-300 fill-orange-300" />
-          }
-        </button>
+        
+        {/* 認証状態表示 - トグルボタンの下に移動 */}
+        {/* <div className="mt-4 flex justify-end">
+          <AuthStatus />
+        </div> */}
       </header>
 
       <main className="p-4">
@@ -429,7 +439,7 @@ export default function Home() {
             <p>各店舗の SNS 等も併せて確認してください。</p>
             <br />
             <p>ソートメニューから「標準 / 訪問済 / 現在地からの距離」で並び替えできます。</p>
-            <p>各店舗の営業情報は 2025年5月時点のものです。</p>
+            <p>各店舗の営業情報は 2025年10月時点のものです。</p>
           </div>
         </div>
         <div className="text-center mb-6">
@@ -620,6 +630,9 @@ export default function Home() {
             </tbody>
           </table>
         </div>
+
+        {/* 購入ボタンセクション */}
+        {/* <SubscriptionSection /> */}
 
       </main>
 
