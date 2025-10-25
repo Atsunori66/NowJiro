@@ -1,13 +1,14 @@
-import { type NextRequest } from 'next/server'
-import { createClient } from '@/utils/supabase/middleware'
+import { type NextRequest, NextResponse } from 'next/server'
+// import { createClient } from '@/utils/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  const { supabase, response } = createClient(request)
+  // const { supabase, response } = createClient(request)
 
   // セッションの更新
-  await supabase.auth.getSession()
+  // await supabase.auth.getSession()
 
-  return response
+  // return response
+  return NextResponse.next()
 }
 
 export const config = {

@@ -4,8 +4,8 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Provider } from "./components/Provider";
-import { SubscriptionProvider } from "./contexts/SubscriptionContext";
-import ClientOnlyAds from "./components/ClientOnlyAds";
+// import { SubscriptionProvider } from "./contexts/SubscriptionContext";
+// import ClientOnlyAds from "./components/ClientOnlyAds";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,10 +46,10 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider>
-          <SubscriptionProvider>
-            <ClientOnlyAds />
+          {/* <SubscriptionProvider> */}
+            {/* <ClientOnlyAds /> */}
             {children}
-          </SubscriptionProvider>
+          {/* </SubscriptionProvider> */}
         </Provider>
       </body>
 
