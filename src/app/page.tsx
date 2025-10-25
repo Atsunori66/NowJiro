@@ -424,9 +424,9 @@ export default function Home() {
         </div>
         
         {/* 認証状態表示 - トグルボタンの下に移動 */}
-        <div className="mt-4 flex justify-end">
+        {/* <div className="mt-4 flex justify-end">
           <AuthStatus />
-        </div>
+        </div> */}
       </header>
 
       <main className="p-4">
@@ -439,7 +439,7 @@ export default function Home() {
             <p>各店舗の SNS 等も併せて確認してください。</p>
             <br />
             <p>ソートメニューから「標準 / 訪問済 / 現在地からの距離」で並び替えできます。</p>
-            <p>各店舗の営業情報は 2025年5月時点のものです。</p>
+            <p>各店舗の営業情報は 2025年10月時点のものです。</p>
           </div>
         </div>
         <div className="text-center mb-6">
@@ -632,12 +632,12 @@ export default function Home() {
         </div>
 
         {/* 購入ボタンセクション */}
-        <SubscriptionSection />
+        {/* <SubscriptionSection /> */}
 
       </main>
 
       <footer className="p-4 text-center">
-        <div className="mb-4 space-y-2">
+        {/* <div className="mb-4 space-y-2">
           <div className="flex justify-center space-x-4 text-sm">
             <a href="/legal" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline">
               利用規約・プライバシーポリシー
@@ -646,7 +646,7 @@ export default function Home() {
               特定商取引法に基づく表示
             </a>
           </div>
-        </div>
+        </div> */}
         <div>
           &copy; {year} nowjiro.com
         </div>
