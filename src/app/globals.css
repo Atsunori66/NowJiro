@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #ffffff;
@@ -27,48 +28,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
-
-/* 認証ページでの広告強制非表示 */
-body[data-auth-page="true"] .monetag-ads,
-body[data-auth-page="true"] [id*="monetag"],
-body[data-auth-page="true"] [class*="monetag"],
-body[data-auth-page="true"] [id*="ads"],
-body[data-auth-page="true"] [class*="ads"],
-body[data-auth-page="true"] .ad,
-body[data-auth-page="true"] .advertisement,
-body[data-auth-page="true"] [data-ad],
-body[data-auth-page="true"] [data-ads],
-body[data-auth-page="true"] iframe[src*="ads"],
-body[data-auth-page="true"] iframe[src*="monetag"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
-  position: absolute !important;
-  left: -9999px !important;
-  top: -9999px !important;
-}
-
-/* 認証ページ全体での広告関連要素の非表示 */
-[data-pathname^="/auth"] .monetag-ads,
-[data-pathname^="/auth"] [id*="monetag"],
-[data-pathname^="/auth"] [class*="monetag"],
-[data-pathname^="/auth"] [id*="ads"],
-[data-pathname^="/auth"] [class*="ads"],
-[data-pathname^="/auth"] .ad,
-[data-pathname^="/auth"] .advertisement,
-[data-pathname^="/auth"] [data-ad],
-[data-pathname^="/auth"] [data-ads],
-[data-pathname^="/auth"] iframe[src*="ads"],
-[data-pathname^="/auth"] iframe[src*="monetag"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
-  position: absolute !important;
-  left: -9999px !important;
-  top: -9999px !important;
 }
