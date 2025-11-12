@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: '今すぐ行ける二郎系ラーメン店を確認できるアプリ',
     start_url: '/',
     display: 'standalone',
-    background_color: '#00a6ff',
+    background_color: '#ffd700',
     theme_color: '#ffd700',
     icons: [
       {
